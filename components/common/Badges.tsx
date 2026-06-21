@@ -1,0 +1,1 @@
+export function StatusBadge({value}:{value:string}){return <span className={`tag status-${value}`}>{value.replaceAll("_"," ")}</span>}export function SeverityTag({value}:{value:string}){return <span className={`tag severity-${value}`}>{value}</span>}
