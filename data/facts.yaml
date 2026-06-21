@@ -1,0 +1,24 @@
+# TODO(init): Synthetic pass-1 source-backed facts and inferences.
+facts:
+  - id: fact_arr_model
+    opportunity_id: project_nova
+    key: arr
+    label: ARR
+    value: €18.4m
+    kind: fact
+    as_of: 2026-05-31
+    conflicts_with: [fact_arr_memo]
+    citations: [{ source_id: doc_002, source_title: May Financial Model, source_type: spreadsheet_range, location: Summary!B4, extracted_text: Annual recurring revenue of €18.4m, confidence: medium }]
+  - id: fact_arr_memo
+    opportunity_id: project_nova
+    key: arr
+    label: ARR
+    value: €17.8m
+    kind: fact
+    as_of: 2026-05-15
+    conflicts_with: [fact_arr_model]
+    citations: [{ source_id: doc_003, source_title: IC Memo Draft, source_type: document, location: p.2, extracted_text: Current ARR of €17.8m, confidence: high }]
+  - { id: fact_growth, opportunity_id: project_nova, key: arr_growth, label: ARR growth, value: 24%, kind: fact, as_of: 2026-05-31, citations: [{ source_id: doc_001, source_title: Investment Deck, source_type: document, location: p.6, confidence: medium }] }
+  - { id: fact_nrr, opportunity_id: project_nova, key: nrr, label: NRR, value: 112%, kind: inference, as_of: 2026-05-31, citations: [{ source_id: doc_001, source_title: Investment Deck, source_type: document, location: p.9, confidence: low }] }
+  - { id: fact_ebitda, opportunity_id: project_nova, key: ebitda_margin, label: EBITDA margin, value: unclear, kind: inference, as_of: 2026-06-21, citations: [] }
+  - { id: fact_concentration, opportunity_id: project_nova, key: customer_concentration, label: Top customer concentration, value: unavailable, kind: inference, as_of: 2026-06-21, citations: [] }

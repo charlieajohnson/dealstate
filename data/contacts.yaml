@@ -1,0 +1,5 @@
+# TODO(init): Synthetic pass-1 contacts.
+contacts:
+  - { id: con_001, opportunity_id: project_nova, name: Samir Patel, role: CFO, organisation: Nova Compliance Systems, last_interaction: 2026-06-20 }
+  - { id: con_002, opportunity_id: project_nova, name: Laura Chen, role: Head of FP&A, organisation: Nova Compliance Systems, last_interaction: 2026-06-19 }
+  - { id: con_003, opportunity_id: project_nova, name: Michael Grant, role: Audit partner, organisation: Grant & Co., last_interaction: 2026-06-18 }

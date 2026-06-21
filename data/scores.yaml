@@ -1,0 +1,13 @@
+# TODO(init): Synthetic pass-1 firm scores.
+weights: { icp_fit: 15, market_attractiveness: 15, revenue_quality: 15, retention_quality: 10, leadership_risk: 10, competition_risk: 10, ai_disruption_risk: 10, data_completeness: 10, diligence_confidence: 5 }
+opportunities:
+  project_nova:
+    icp_fit: { score: 84, confidence: medium, rationale: Vertical B2B workflow software with regulatory pull., what_would_change_score: Evidence of horizontal rather than vertical use. }
+    market_attractiveness: { score: 72, confidence: medium, rationale: Regulatory workflows support durable demand., what_would_change_score: A sourced bottom-up market map. }
+    revenue_quality: { score: 58, confidence: low, rationale: Services split and cohort retention are missing., what_would_change_score: Audited recurring revenue bridge. }
+    retention_quality: { score: 55, confidence: low, rationale: NRR is not supported by cohort evidence., what_would_change_score: Customer cohort analysis. }
+    leadership_risk: { score: 60, confidence: low, rationale: Management depth has not been tested., what_would_change_score: Leadership references. }
+    competition_risk: { score: 63, confidence: medium, rationale: The category appears fragmented., what_would_change_score: Full market mapping. }
+    ai_disruption_risk: { score: 46, confidence: low, rationale: The materials do not describe an AI-native moat., what_would_change_score: Product roadmap evidence. }
+    data_completeness: { score: 40, confidence: high, rationale: Several required artefacts remain missing., what_would_change_score: Receipt of requested materials. }
+    diligence_confidence: { score: 50, confidence: medium, rationale: Core claims remain only partly corroborated., what_would_change_score: Reconciled model and cohort data. }

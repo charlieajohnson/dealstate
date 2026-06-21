@@ -1,0 +1,7 @@
+# TODO(init): Synthetic pass-1 timeline and audit events.
+events:
+  - { id: evt_001, opportunity_id: project_nova, type: opportunity_created, actor: Partner A, actor_type: human, timestamp: 2026-06-12T09:00:00Z, description: Project Nova opened for diligence., source_ids: [] }
+  - { id: evt_002, opportunity_id: project_nova, type: document_added, actor: Associate C, actor_type: human, timestamp: 2026-06-19T10:15:00Z, description: May financial model added., source_ids: [doc_002], new_value: €18.4m ARR reported }
+  - { id: evt_003, opportunity_id: project_nova, type: document_added, actor: Principal B, actor_type: human, timestamp: 2026-06-21T08:45:00Z, description: IC memo draft circulated., source_ids: [doc_003], new_value: €17.8m ARR reported }
+  - { id: evt_004, opportunity_id: project_nova, type: fact_changed, actor: DealState, actor_type: system, timestamp: 2026-06-21T08:46:00Z, description: ARR conflict surfaced across the model and memo., source_ids: [doc_002, doc_003], previous_value: €17.8m, new_value: €18.4m }
+  - { id: evt_005, opportunity_id: project_nova, type: document_request_added, actor: Associate C, actor_type: human, timestamp: 2026-06-21T11:30:00Z, description: Customer cohort analysis requested., source_ids: [doc_missing_002] }

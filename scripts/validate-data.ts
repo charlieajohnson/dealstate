@@ -1,0 +1,1 @@
+import fs from "node:fs";import path from "node:path";import YAML from "yaml";import {dataSchemas} from "../lib/schemas";for(const[name,schema]of Object.entries(dataSchemas)){const file=path.join(process.cwd(),"data",`${name}.yaml`);schema.parse(YAML.parse(fs.readFileSync(file,"utf8")))}console.log(`Validated ${Object.keys(dataSchemas).length} YAML files.`)

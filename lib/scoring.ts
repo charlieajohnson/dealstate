@@ -1,0 +1,1 @@
+export function computeOverallScore(weights:Record<string,number>,scores:Record<string,{score:number}>){const entries=Object.entries(weights);const totalWeight=entries.reduce((sum,[,weight])=>sum+weight,0);if(totalWeight===0)return 0;return Math.round(entries.reduce((sum,[dimension,weight])=>sum+(scores[dimension]?.score??0)*weight,0)/totalWeight)}

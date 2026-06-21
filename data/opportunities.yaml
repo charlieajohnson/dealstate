@@ -1,0 +1,6 @@
+# TODO(init): Synthetic pass-1 opportunities.
+opportunities:
+  - { id: project_nova, slug: project-nova, name: Project Nova, company_name: Nova Compliance Systems, stage: live_diligence, sector: B2B compliance workflow software, geography: [DACH, Benelux], internal_owner: Partner A, contributors: [Partner A, Principal B, Associate C, Intern D], current_recommendation: continue_diligence, confidence: medium, last_updated_at: 2026-06-21 }
+  - { id: project_orbit, slug: project-orbit, name: Project Orbit, company_name: Orbit Revenue Systems, stage: prospect, internal_owner: Principal B, current_recommendation: monitor, confidence: low, last_updated_at: 2026-06-18 }
+  - { id: project_fir, slug: project-fir, name: Project Fir, company_name: Fir Industrial Data, stage: ic_prep, internal_owner: Partner A, current_recommendation: prioritise, confidence: medium, last_updated_at: 2026-06-20 }
+  - { id: project_lumen, slug: project-lumen, name: Project Lumen, company_name: Lumen Field Services, stage: passed, internal_owner: Principal D, current_recommendation: pass, confidence: high, last_updated_at: 2026-06-12 }

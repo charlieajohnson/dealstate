@@ -1,0 +1,5 @@
+# TODO(init): Synthetic pre-generated investment outputs.
+generated_outputs:
+  - { id: output_001, opportunity_id: project_nova, type: onboarding_brief, title: Project Nova 10-Minute Catch-Up Brief, path: onboarding-brief, confidence: medium, source_ids: [doc_001, doc_002, doc_003, issue_001] }
+  - { id: output_002, opportunity_id: project_nova, type: market_map, title: Compliance Workflow Software Market Map, path: market-map, confidence: low, source_ids: [doc_001, output_001] }
+  - { id: output_003, opportunity_id: project_nova, type: theme_paper, title: European Compliance Workflow Software Theme Paper, path: theme-paper, confidence: low, source_ids: [doc_001, output_002] }

@@ -1,0 +1,10 @@
+# TODO(init): Synthetic pass-1 document inventory.
+documents:
+  - { id: doc_001, opportunity_id: project_nova, artefact_type: investment_opportunity_deck, status: received, source: email, received_at: 2026-06-19, confidence: high, original_filename: Nova deck final_FINAL.pdf, standardised_filename: 2026-06-19_Project-Nova_Investment-Deck_v3.pdf, notes: [Primary company overview] }
+  - { id: doc_002, opportunity_id: project_nova, artefact_type: financial_model, status: received, source: drive, received_at: 2026-06-19, confidence: medium, original_filename: Updated numbers May.xlsx, standardised_filename: 2026-06-19_Project-Nova_Financial-Model_May-2026.xlsx, notes: [Requires reconciliation with IC memo] }
+  - { id: doc_003, opportunity_id: project_nova, artefact_type: ic_memo, status: received, source: email, received_at: 2026-06-21, confidence: high, original_filename: IC memo draft.pdf, standardised_filename: 2026-06-21_Project-Nova_IC-Memo_Draft-v1.pdf, notes: [Draft for internal review] }
+  - { id: doc_004, opportunity_id: project_nova, artefact_type: prior_financial_model, status: superseded, source: drive, received_at: 2026-06-10, confidence: low, original_filename: Numbers April.xlsx, standardised_filename: 2026-06-10_Project-Nova_Financial-Model_April-2026.xlsx, notes: [Superseded by May model] }
+  - { id: doc_missing_001, opportunity_id: project_nova, artefact_type: audited_financials, status: missing, source: unknown, confidence: high, notes: [Needed to validate revenue and EBITDA quality] }
+  - { id: doc_missing_002, opportunity_id: project_nova, artefact_type: customer_cohort_analysis, status: missing, source: unknown, confidence: high, notes: [Needed to support NRR and retention claims] }
+  - { id: doc_request_001, opportunity_id: project_nova, artefact_type: customer_concentration_schedule, status: requested, source: email, confidence: high, notes: [Requested from CFO on 21 June] }
+  - { id: doc_request_002, opportunity_id: project_nova, artefact_type: software_vs_services_split, status: requested, source: email, confidence: high, notes: [Required to assess revenue quality] }
