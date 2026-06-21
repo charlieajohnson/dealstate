@@ -1,0 +1,1 @@
+import Link from "next/link";export function Footer(){return <footer className="footer"><div className="shell footer-inner"><span>DealState · Live state for every deal.</span><Link className="quiet-link" href="/methodology">Methodology</Link></div></footer>}
