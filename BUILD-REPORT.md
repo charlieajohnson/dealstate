@@ -6,7 +6,7 @@ Date: 21 June 2026
 
 ### Repository
 
-- Standalone public Git repository with nine logical commits on `main`.
+- Standalone public Git repository with small logical commits on `main`.
 - Exact dependency pins, strict TypeScript, committed lockfile and a gitleaks-enforced pre-commit hook.
 - Three-step local run path and documented seed-to-Supabase switch.
 - Decision log, implementation plan and current-source list.
