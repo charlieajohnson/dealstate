@@ -1,0 +1,2 @@
+"use client";
+import dynamic from "next/dynamic";import {useState} from "react";const ScoreChart=dynamic(()=>import("./ScoreChart"),{ssr:false});export function ScoreChartLoader({data}:{data:{name:string;score:number}[]}){const[open,setOpen]=useState(false);return <div className="chart-disclosure"><button className="btn" type="button" onClick={()=>setOpen(value=>!value)}>{open?"Close interactive chart":"Open interactive chart"}</button>{open?<ScoreChart data={data}/>:null}</div>}
