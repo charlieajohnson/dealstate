@@ -35,7 +35,9 @@ Date: 22 June 2026
 
 - Production target remains Vercel free tier with seed data.
 - Production alias remains <https://dealstate-zeta.vercel.app>.
-- Final deployment details to be confirmed after push/deploy from this commit.
+- Production deployment is Ready: `dpl_AtzFNQrGGt2RNgRKM4McD2hXdEoF`.
+- Deployment URL: <https://dealstate-px02job63-charlieajohnson.vercel.app>.
+- Inspector URL: <https://vercel.com/charlieajohnson/dealstate/AtzFNQrGGt2RNgRKM4McD2hXdEoF>.
 
 ## 2. Verified
 
@@ -59,6 +61,11 @@ Date: 22 June 2026
 | Lighthouse landing, desktop preset | Performance 100, accessibility 100. |
 | Lighthouse Project Nova, mobile preset | Performance 96, accessibility 96. |
 | Lighthouse Project Nova, desktop preset | Performance 100, accessibility 96. |
+| `npx vercel --prod --yes` | Passed. Remote build ran `npm ci`, validation, tests and Next build, then aliased production. |
+| Remote HTTP smoke | Passed, 200 for `/`, `/opportunities`, `/opportunities/project-nova`, `/methodology`, and `/opportunities/project-nova/outputs/onboarding-brief`. |
+| Live browser QA | Passed on `dealstate-zeta.vercel.app`: landing headline, vignette, Project Nova score 61, coverage 46 and no horizontal overflow verified. |
+| `npx vercel inspect` | Deployment `dpl_AtzFNQrGGt2RNgRKM4McD2hXdEoF` is Ready and aliased. |
+| `npx vercel logs --since 1h` | 13 info logs, all observed requests 200, no error logs in the sampled window. |
 
 Fidelity ledger:
 
