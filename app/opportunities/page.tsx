@@ -1,2 +1,57 @@
-import Link from "next/link";import {ConfidenceTag} from "@/components/common/Provenance";import {StatusBadge} from "@/components/common/Badges";import {getRepository} from "@/lib/repo";
-export default async function OpportunitiesPage(){const opportunities=await getRepository().list();return <main className="shell page-pad"><div className="page-intro"><span className="module-kicker">Workspace</span><h1>Opportunities</h1><p>Current investment state across the active set.</p></div><div className="card table-scroll"><table className="opportunity-table"><thead><tr><th scope="col">Opportunity</th><th scope="col">Stage</th><th scope="col">Recommendation</th><th scope="col">Owner</th><th scope="col">Confidence</th><th scope="col">Updated</th></tr></thead><tbody>{opportunities.map(item=><tr key={item.id}><td><Link className="quiet-link" href={`/opportunities/${item.slug}`}>{item.name}</Link><span>{item.company_name}</span></td><td><StatusBadge value={item.stage}/></td><td><StatusBadge value={item.current_recommendation}/></td><td>{item.internal_owner}</td><td><ConfidenceTag value={item.confidence}/></td><td><time>{item.last_updated_at}</time></td></tr>)}</tbody></table></div></main>}
+import Link from "next/link";
+import {StatusBadge} from "@/components/common/Badges";
+import {ConfidenceTag} from "@/components/common/Provenance";
+import {getRepository} from "@/lib/repo";
+
+const summaries: Record<string, string> = {
+  "project-nova": "14 sources · 5 open issues · updated today",
+  "project-atlas": "6 sources · 8 missing items · updated yesterday",
+  "project-fen": "22 sources · 2 conflicts · updated 3 days ago",
+};
+
+export default async function OpportunitiesPage() {
+  const opportunities = await getRepository().list();
+
+  return (
+    <main className="shell page-pad">
+      <div className="page-intro">
+        <span className="module-kicker">Deal pipeline</span>
+        <h1>Opportunities</h1>
+        <p className="lead">
+          A state list for active opportunities. Project Nova is fully populated; the others are thin synthetic
+          placeholders for workspace realism.
+        </p>
+      </div>
+
+      <div className="opportunity-list">
+        {opportunities.map((item) => {
+          const active = item.slug === "project-nova";
+          return (
+            <article className="card opportunity-row" key={item.id}>
+              <div>
+                {active ? (
+                  <Link className="quiet-link" href={`/opportunities/${item.slug}`}>
+                    Open workspace
+                  </Link>
+                ) : (
+                  <span className="tag">Synthetic placeholder</span>
+                )}
+                <h2>{item.name}</h2>
+                <p className="muted">{item.company_name}</p>
+                <div className="opportunity-meta">
+                  <StatusBadge value={item.stage} />
+                  <StatusBadge value={item.current_recommendation} />
+                  <ConfidenceTag value={item.confidence} />
+                </div>
+              </div>
+              <div>
+                <p className="numeric">{summaries[item.slug] ?? `Updated ${item.last_updated_at}`}</p>
+                <p className="muted">{item.internal_owner}</p>
+              </div>
+            </article>
+          );
+        })}
+      </div>
+    </main>
+  );
+}

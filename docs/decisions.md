@@ -14,3 +14,11 @@ Append-only record for the initial build.
 - **Supabase:** author explicit read-only grants and RLS following the April 2026 Data API exposure change; seed mode remains the deploy default.
 - **Visual concept:** use the supplied design spec as the accepted source of truth, supported by a generated dashboard concept and a generated estuary production asset.
 - **Scoring:** all dimensions are favourability scores, including risk mitigation; Overall is a rounded weighted mean.
+
+## 2026-06-22
+
+- **Aesthetic:** shift from the prior dusk editorial page to the colder Dusk Institutional system in the supplied UI update spec: dusk estuary atmosphere, ivory product cards, mono provenance labels, visible conflicts and a product-led hero.
+- **Messaging:** replace “one live view” with “one live state” across the primary page and metadata because the product wedge is derived investment state, not document viewing.
+- **Hero:** implement the Project Nova product theatre as code-native UI over the existing estuary asset rather than shipping a screenshot or adding a video dependency.
+- **Seed data:** add non-required synthetic source records to reach 14 visible sources while preserving the required artefact denominator and Project Nova source coverage score of 46.
+- **Workspace:** favour a three-column deal-room layout with left navigation, central investment state and right-side changes/materials over a broad dashboard grid.

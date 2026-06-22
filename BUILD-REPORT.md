@@ -1,68 +1,86 @@
-# DealState Initial Build Report
+# DealState Aesthetic and Messaging Overhaul Report
 
-Date: 21 June 2026
+Date: 22 June 2026
 
 ## 1. Built
 
 ### Repository
 
-- Standalone public Git repository with small logical commits on `main`.
-- Exact dependency pins, strict TypeScript, committed lockfile and a gitleaks-enforced pre-commit hook.
-- Three-step local run path and documented seed-to-Supabase switch.
-- Decision log, implementation plan and current-source list.
-
-### Backend and integrity
-
-- Nine centralised YAML seed files parsed through Zod before every build.
-- Fact validation enforces at least one citation for `kind: fact`.
-- Pure state, diff and scoring functions with Vitest coverage.
-- Project Nova derives Overall 61 and source coverage 46 from seed inputs.
-- Deterministic opportunity-manager interface with six source-cited prompts and graceful out-of-scope handling.
-- Optional Supabase repository boundary plus a generated migration covering the domain model, explicit read grants and read-only RLS.
+- Updated the standalone DealState app in `/Users/charlie/Documents/GitHub/dealstate`.
+- Added a review concept at `docs/design/aesthetic-overhaul-concept.png`.
+- Recorded material decisions in `docs/decisions.md`.
+- Kept the existing Next.js 15, strict TypeScript, Tailwind CSS v4, Zod, Vitest and Vercel stack.
 
 ### Frontend
 
-- Landing, opportunities index, dynamic opportunity route, Project Nova demo, generated-output routes and methodology.
-- Project Nova modules: current state, provenance, conflicts, latest changes, open issues, nine-dimension scorecard, actions, chat, document checklist, suggested requests, contacts, timeline, outputs and audit trail.
-- Three generated Markdown outputs with source appendices.
-- Light and dark dusk themes with a light default, Fraunces display, Geist Sans UI and Geist Mono numerals.
-- Generated blue-hour estuary hero image, stored as an optimised 55 KB WebP. The original generated PNG and dashboard concept are retained for review.
-- Responsive two-column workspace with internal table scrolling on narrow screens.
+- Reworked the landing page around the supplied Dusk Institutional Intelligence spec.
+- Replaced “one live view” positioning with “one live state” in the hero, metadata and Open Graph image.
+- Added a code-native Project Nova product vignette above the fold, showing investment state, provenance, changed-since-last-review, conflict state and open issues.
+- Added the core distinction, state loop, workspace preview, state surfaces, trust model and final Project Nova CTA sections.
+- Reworked `/opportunities/project-nova` into a three-column deal-room surface: left workspace rail, central investment state and right rail for changes, chat, materials, outputs and contacts.
+- Added a claims ledger showing support, conflict and unsupported review state.
+- Reworked `/opportunities` into a deal pipeline/state list with Project Nova, Project Atlas and Project Fen.
+- Reworked `/methodology` as the audit rules behind state derivation.
+- Improved mobile hero performance by replacing the estuary image with a dusk gradient at small breakpoints while preserving the product vignette and map-line treatment.
+
+### Backend and synthetic data
+
+- Preserved the pure state engine, scoring engine, deterministic mock chat and Zod validation.
+- Added non-required synthetic source records so Project Nova presents as 14 sources, 5 open issues, 5 missing/requested items and 2 superseded materials without changing the required artefact coverage calculation.
+- Preserved Project Nova Overall 61 and source coverage 46.
+- Updated deterministic chat copy to include unsupported EBITDA add-backs.
+- Supabase migration and repository boundary remain scaffolded but optional; runtime still defaults to `USE_SUPABASE=false`.
 
 ### Deploy
 
-- GitHub integration connected to Vercel.
-- Production runs from seed with `USE_SUPABASE=false` and no paid service dependency.
-- Production alias: <https://dealstate-zeta.vercel.app>
+- Production target remains Vercel free tier with seed data.
+- Production alias remains <https://dealstate-zeta.vercel.app>.
+- Final deployment details to be confirmed after push/deploy from this commit.
 
 ## 2. Verified
 
 | Command or check | Result |
 |---|---|
-| `npm ci` | Passed in Vercel clean build environment, 522 packages installed. |
-| `npm run validate-data` | Passed, 9 YAML files validated. |
-| `npm run lint:copy` | Passed, 33 files checked; no em dashes or italic markup. |
-| `npm run typecheck` | Passed with strict TypeScript. |
-| `npm run lint` | Passed with no warnings or errors. |
-| `npm test` | Passed, 3 files and 5 tests. |
-| `npm run build` | Passed, Next.js 15.5.19 compiled and generated 13 static pages. |
-| HTTP smoke: `/`, `/opportunities`, `/opportunities/project-nova`, onboarding output, `/methodology` | All returned 200. |
-| Browser interaction | Project Nova rendered with no console errors; suggested prompt returned cited `doc_002`, `doc_003` and `issue_002`. |
-| Mobile browser check at 390 by 844 | One-column workspace verified; internal tables scroll without expanding the page. |
-| Lighthouse landing | Performance 96, accessibility 100. |
-| Lighthouse Project Nova | Performance 98, accessibility 100. |
-| `vercel inspect` | Production deployment Ready and aliased to `dealstate-zeta.vercel.app`. |
-| `gitleaks` pre-commit | Passed before every commit. |
+| `npm run build` | Passed. This ran `validate-data`, `lint:copy`, `typecheck`, `lint`, `test` and `next build`. |
+| `npm run validate-data` | Passed inside build, 9 YAML files validated. |
+| `npm run lint:copy` | Passed inside build, 35 files checked with no em dashes or italic markup. |
+| `npm run typecheck` | Passed inside build with strict TypeScript. |
+| `npm run lint` | Passed inside build with no ESLint warnings or errors. |
+| `npm run test` | Passed inside build, 3 files and 5 tests. |
+| Static generation | Passed, 12 app routes generated or configured. |
+| HTTP smoke via Python `urllib` | Passed, 200 for `/`, `/opportunities`, `/opportunities/project-nova`, `/methodology`, and `/opportunities/project-nova/outputs/onboarding-brief`. |
+| Browser QA, landing desktop | Passed. Headline, product vignette, open issues and no horizontal overflow verified. |
+| Browser QA, Project Nova desktop | Passed. State summary, source coverage 46, score 61, claims ledger, materials statuses, cited chat answer and no horizontal overflow verified. |
+| Browser QA, mobile 390 by 844 | Passed. Landing and Project Nova key content present with no horizontal overflow. |
+| Suggested chat prompt | Passed. “What changed since I last looked?” returns the deterministic answer with `DOC_002`, `DOC_003` and `ISSUE_002`. |
+| Visual concept inspection | Completed with `view_image` on `docs/design/aesthetic-overhaul-concept.png`. |
+| Render inspection | Completed with `view_image` on `/tmp/dealstate-home-final.png` and `/tmp/dealstate-project-nova-top.png`. |
+| Lighthouse landing, mobile preset | Performance 96, accessibility 100. |
+| Lighthouse landing, desktop preset | Performance 100, accessibility 100. |
+| Lighthouse Project Nova, mobile preset | Performance 96, accessibility 96. |
+| Lighthouse Project Nova, desktop preset | Performance 100, accessibility 96. |
 
-Visual QA compared `docs/design/dashboard-concept.png` with the production render at 1280 by 720. Copy, two-column hierarchy, type system, dusk palette, provenance treatment, score 61, coverage 46 and responsive stacking match the accepted design. The implementation uses greater vertical spacing than the concept to preserve legibility. No material mismatch remains.
+Fidelity ledger:
+
+- Copy: implemented “One live state for every deal” and removed the old “one live view” language from primary surfaces.
+- Layout: hero now pairs editorial claim with live Project Nova product theatre; workspace now follows the left rail, main state and right rail structure.
+- Palette: moved to colder Dusk Institutional tokens from the supplied spec.
+- Provenance: key metric cards, claims ledger and chat answers retain citation, inference or unsupported treatment.
+- Responsive behaviour: mobile uses a lighter dusk gradient for performance, retains the product proof and avoids horizontal overflow.
+
+Intentional deviations:
+
+- Runtime UI uses the existing synthetic Euro-denominated Project Nova seed rather than the spec’s illustrative Sterling examples.
+- Hero animation is CSS state motion rather than a video loop because no real approved video asset exists and CSS avoids a new dependency.
+- The mobile hero uses a generated gradient rather than the estuary image to meet Lighthouse performance while preserving the dusk mood.
 
 ## 3. Open items
 
-- `needs-secret` - Supabase provisioning was not possible because the CLI has no access token. Needed: authenticate with `npx supabase login` or set `SUPABASE_ACCESS_TOKEN`. Why: only required to create and migrate the optional hosted database; the deployed demo does not use it.
+- `needs-secret` - Supabase provisioning is still blocked because the CLI has no access token. Needed: authenticate with `npx supabase login` or set `SUPABASE_ACCESS_TOKEN`. Why: only required to create and migrate the optional hosted database; the deployed demo runs from seed data with `USE_SUPABASE=false`.
 
 ## 4. Next commands
 
-The current seed deployment is already live. To provision the optional database:
+The seed deployment remains the live path. To provision the optional database:
 
 ```bash
 npx supabase login

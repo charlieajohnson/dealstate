@@ -1,3 +1,52 @@
-import Image from "next/image";import Link from "next/link";
-const proof=["Replace repeated handovers with canonical deal state.","See what changed since the last review.","Track received, missing and superseded materials.","Ask source-backed questions without hiding the state.","Generate investment work from deal context."];
-export default function HomePage(){return <main><section className="hero"><Image src="/images/blue-hour-estuary.webp" alt="A quiet estuary at blue hour" fill priority sizes="100vw"/><div className="hero-scrim"/><div className="shell hero-content"><span className="module-kicker">Live state for every deal</span><h1>One live view for every deal.</h1><p>DealState turns scattered files, emails, notes and updates into shared, source-backed investment state.</p><div><Link className="btn btn-primary" href="/opportunities/project-nova">View demo deal</Link><Link className="btn hero-secondary" href="/methodology">Read methodology</Link></div></div></section><section className="shell thesis"><div><span className="module-kicker">The distinction</span><h2>Documents record what arrived. Investment state records what the team believes.</h2></div><p>DealState derives a versioned view from facts, issues and artefacts. Conflicts stay visible. Unsupported claims stay unsupported. Every material number carries provenance.</p></section><section className="shell proof-grid" aria-label="Product proof points">{proof.map((item,index)=><article key={item}><span className="numeric">0{index+1}</span><p>{item}</p></article>)}</section><section className="shell calm-close"><h2>Catch up without the handover.</h2><p>Open Project Nova to see the source-backed demo.</p><Link className="quiet-link" href="/opportunities/project-nova">Enter the opportunity workspace →</Link></section></main>}
+import Link from "next/link";
+import {HeroProductVignette} from "@/components/landing/HeroProductVignette";
+import {
+  ClosingCta,
+  DistinctionSection,
+  StateLoopSection,
+  StateSurfacesSection,
+  TrustSection,
+  WorkspacePreviewSection,
+} from "@/components/landing/LandingSections";
+
+export default function HomePage() {
+  return (
+    <main>
+      <section className="hero">
+        <div className="hero-scrim" />
+        <div className="hero-maplines" aria-hidden="true" />
+        <div className="shell hero-content">
+          <div className="hero-copy">
+            <span className="module-kicker">Live state for every deal</span>
+            <h1>One live state for every deal.</h1>
+            <p>
+              DealState turns scattered files, emails, notes and updates into a source-backed view of what the team
+              knows, believes, questions and still needs.
+            </p>
+            <div className="hero-actions">
+              <Link className="btn btn-primary" href="/opportunities/project-nova">
+                View demo deal
+              </Link>
+              <Link className="btn hero-secondary" href="/methodology">
+                Read methodology
+              </Link>
+            </div>
+            <div className="hero-proof" aria-label="Product proof">
+              <span className="tag">Source-backed</span>
+              <span className="tag">Conflict-aware</span>
+              <span className="tag">Always current</span>
+            </div>
+          </div>
+          <HeroProductVignette />
+        </div>
+      </section>
+
+      <DistinctionSection />
+      <StateLoopSection />
+      <WorkspacePreviewSection />
+      <StateSurfacesSection />
+      <TrustSection />
+      <ClosingCta />
+    </main>
+  );
+}

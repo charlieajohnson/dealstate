@@ -1,6 +1,6 @@
 # DealState
 
-DealState is a synthetic, source-backed opportunity centre for private-market deal teams. It maintains derived investment state rather than free-form summaries.
+DealState is a synthetic, source-backed opportunity centre for private-market deal teams. It maintains derived investment state rather than free-form summaries, with Project Nova as the fully populated demo.
 
 ## Run locally
 
@@ -34,7 +34,7 @@ npm run build
 
 ## Data source
 
-`USE_SUPABASE=false` uses validated YAML in `data/` through `SeedRepository` and requires no external service. To swap to Postgres, apply `supabase/migrations/0001_init.sql`, seed equivalent rows, set the two public Supabase variables in a local or Vercel environment, and set `USE_SUPABASE=true`. The browser receives only a publishable key; never expose a secret or service-role key.
+`USE_SUPABASE=false` uses validated YAML in `data/` through `SeedRepository` and requires no external service. To swap to Postgres, apply `supabase/migrations/20260621190524_init.sql`, seed equivalent rows, set the two public Supabase variables in a local or Vercel environment, and set `USE_SUPABASE=true`. The browser receives only a publishable key; never expose a secret or service-role key.
 
 ## Synthetic boundary
 
