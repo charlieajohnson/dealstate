@@ -1,12 +1,211 @@
 # DealState
 
-DealState is a synthetic, source-backed opportunity centre for private-market deal teams. It maintains derived investment state rather than free-form summaries, with Project Nova as the fully populated demo.
+Source-backed investment state for private-market deal teams.
 
-## Run locally
+[![Live demo](https://img.shields.io/badge/live-demo-0b2d33?style=for-the-badge)](https://dealstate-zeta.vercel.app)
+[![Project Nova](https://img.shields.io/badge/demo-Project%20Nova-c4762d?style=for-the-badge)](https://dealstate-zeta.vercel.app/opportunities/project-nova)
+[![Stack](https://img.shields.io/badge/Next.js%2015-TypeScript-111827?style=for-the-badge)](package.json)
+[![Synthetic data](https://img.shields.io/badge/data-synthetic-3b5b50?style=for-the-badge)](data/)
 
-Prerequisites: Node.js 22 or later, npm and gitleaks.
+DealState is a live opportunity centre for investment teams. It turns scattered files, emails, CRM updates, notes and generated work into a single, source-backed view of what the team knows, believes, questions and still needs.
 
-Three steps to a running app:
+It is deliberately not a document repository and not a generic chat-over-files demo. Documents are inputs. DealState is the investment state derived from those inputs.
+
+**Live paths**
+
+| Surface | Link | What to look at |
+|---|---|---|
+| Landing page | [dealstate-zeta.vercel.app](https://dealstate-zeta.vercel.app) | Product positioning, visual system and core state loop |
+| Demo deal | [/opportunities/project-nova](https://dealstate-zeta.vercel.app/opportunities/project-nova) | Fully populated synthetic deal room |
+| Pipeline | [/opportunities](https://dealstate-zeta.vercel.app/opportunities) | State list with Project Nova plus thin synthetic deal shells |
+| Methodology | [/methodology](https://dealstate-zeta.vercel.app/methodology) | Rules behind source-backed state derivation |
+
+![DealState design direction](docs/design/aesthetic-overhaul-concept.png)
+
+The image above is the design direction that shaped the current app. The live product is implemented as code-native Next.js UI with synthetic Project Nova data.
+
+## What It Does
+
+DealState keeps the operating state of a deal visible:
+
+| Product question | DealState answer |
+|---|---|
+| What is currently true? | A current state card with recommendation, confidence, source coverage and key metrics |
+| What changed since the last review? | A timestamped change rail with evidence references |
+| Which claims are supported? | A claims ledger that separates sourced facts, inferences, conflicts and unsupported assertions |
+| What is missing before IC? | A document checklist and suggested request list |
+| Where are the risks? | Open issue tables with severity, evidence and owner-style next actions |
+| Can I ask the deal a question? | Deterministic opportunity-manager answers over the synthetic state |
+| What can I reuse? | Generated outputs for onboarding, market mapping and theme work |
+
+## Project Nova
+
+Project Nova is the populated demo opportunity. All figures, people, files and companies are synthetic.
+
+| Metric | Current demo state |
+|---|---:|
+| Source artefacts | 14 |
+| Received artefacts | 7 |
+| Missing or requested artefacts | 5 |
+| Superseded artefacts | 2 |
+| Open diligence issues | 5 |
+| Derived key metrics | 5 |
+| Firm scoring dimensions | 9 |
+| Overall deal score | 61 |
+| Source coverage | 46% |
+| Generated outputs | 3 |
+
+```mermaid
+pie title Project Nova source artefacts
+  "Received" : 7
+  "Requested" : 3
+  "Missing" : 2
+  "Superseded" : 2
+```
+
+The intentionally useful bit is the tension in the state: ARR is reported at `EUR18.4m` in the May model and `EUR17.8m` in the IC memo draft, NRR is asserted without cohort evidence, EBITDA add-backs are unsupported, and customer concentration is not yet supplied. DealState keeps those issues visible rather than smoothing them into a confident paragraph.
+
+## State Loop
+
+```mermaid
+flowchart LR
+  A[Files, emails, CRM and notes] --> B[Source ledger]
+  B --> C[Typed facts and inferences]
+  C --> D[Current investment state]
+  D --> E[Conflicts, gaps and review actions]
+  E --> F[Outputs and team questions]
+  F --> D
+```
+
+```text
++-------------------+      +-------------------+      +-------------------+
+| Source material   | ---> | State engine      | ---> | Deal room UI      |
+| decks, models,    |      | facts, conflicts, |      | metrics, issues,  |
+| notes, CRM        |      | coverage, scores  |      | outputs, chat     |
++-------------------+      +-------------------+      +-------------------+
+          |                          |                          |
+          v                          v                          v
+   data/*.yaml              lib/state-engine.ts          app/opportunities/*
+   content/demo/*           lib/scoring.ts               components/*
+```
+
+The product model is simple: make the durable object the state of the deal, not the latest uploaded file and not the latest chat answer.
+
+## Deal Room Layout
+
+Project Nova is arranged as a three-column workspace.
+
+```text
++----------------------+  +--------------------------------------+  +----------------------+
+| Workspace rail       |  | Current investment state             |  | Review rail          |
+|                      |  |                                      |  |                      |
+| Overview             |  | Recommendation and confidence        |  | Latest changes       |
+| Metrics              |  | Key metrics with provenance          |  | Manager chat         |
+| Claims               |  | Claims ledger                        |  | Document checklist   |
+| Materials            |  | Open issues                          |  | Missing requests     |
+| Issues               |  | Nine-dimension scorecard             |  | Generated outputs    |
+| Questions            |  | Suggested next actions               |  | Contacts             |
+| Outputs              |  |                                      |  |                      |
++----------------------+  +--------------------------------------+  +----------------------+
+```
+
+That structure is meant for the repeated, slightly messy workflow of private-market diligence: catch up, inspect what changed, check evidence, decide what to ask for next, and reuse the current state in a memo or briefing.
+
+## Scorecard
+
+Scores are directional, not decorative. Higher is more favourable. Risk dimensions therefore score mitigation, not exposure.
+
+```text
+ICP fit                  84 | #################...
+Market attractiveness    72 | ##############......
+Competition risk         63 | #############.......
+Leadership risk          60 | ############........
+Revenue quality          58 | ############........
+Retention quality        55 | ###########.........
+Diligence confidence     50 | ##########..........
+AI disruption risk       46 | #########...........
+Data completeness        40 | ########............
+```
+
+The overall Project Nova score is `61`, computed from weighted firm dimensions in [`data/scores.yaml`](data/scores.yaml) by [`lib/scoring.ts`](lib/scoring.ts).
+
+## Trust Model
+
+DealState is built around a few non-negotiables:
+
+| Rule | How the app shows it |
+|---|---|
+| Sources are preserved | Every material metric carries a citation, inference marker or unsupported state |
+| Conflicts stay visible | Conflicting values are shown as conflicts until reconciled |
+| Missing material is state | Absent artefacts become open requests, not private analyst memory |
+| Chat is not the source of truth | Chat answers are deterministic in pass 1 and cite the same state ledger |
+| Synthetic means synthetic | The demo makes no claim about a real company, market or transaction |
+
+![Dusk estuary production asset](public/images/blue-hour-estuary.webp)
+
+The visual system uses a dusk institutional tone: calm, low-noise, and closer to an investment workspace than a consumer AI landing page.
+
+## Architecture
+
+```mermaid
+flowchart TB
+  subgraph UI[Next.js App Router]
+    Home[Landing page]
+    Pipeline[Opportunities list]
+    DealRoom[Project Nova deal room]
+    Method[Methodology]
+  end
+
+  subgraph Domain[Domain logic]
+    Repo[Opportunity repository]
+    State[State engine]
+    Score[Scoring engine]
+    Chat[Deterministic chat responses]
+  end
+
+  subgraph Data[Data layer]
+    Seed[YAML seed files]
+    Content[Markdown demo outputs]
+    SQL[Supabase schema]
+  end
+
+  Seed --> Repo
+  Content --> Repo
+  Repo --> State
+  Repo --> Score
+  Repo --> Chat
+  State --> DealRoom
+  Score --> DealRoom
+  Chat --> DealRoom
+  SQL -. optional next step .-> Repo
+```
+
+**Current default:** `USE_SUPABASE=false`, which serves validated YAML through [`SeedRepository`](lib/repo/SeedRepository.ts).
+
+**Optional path:** Supabase tables and RLS are scaffolded in [`supabase/migrations/20260621190524_init.sql`](supabase/migrations/20260621190524_init.sql), but full aggregate hydration in [`SupabaseRepository`](lib/repo/SupabaseRepository.ts) remains a pass-1 next step.
+
+## Repository Map
+
+| Path | Purpose |
+|---|---|
+| [`app/`](app/) | Next.js routes, metadata, sitemap and robots |
+| [`components/`](components/) | Landing, navigation, deal room, chart and shared UI components |
+| [`data/`](data/) | Synthetic Project Nova state, documents, facts, issues, scores, events and contacts |
+| [`content/demo/project-nova/`](content/demo/project-nova/) | Generated Markdown outputs shown in the product |
+| [`lib/state-engine.ts`](lib/state-engine.ts) | Current state, source coverage and change derivation |
+| [`lib/scoring.ts`](lib/scoring.ts) | Weighted deal score calculation |
+| [`lib/repo/`](lib/repo/) | Seed and optional Supabase repository boundary |
+| [`scripts/`](scripts/) | YAML validation and copy linting |
+| [`docs/design/`](docs/design/) | Design references and generated visual direction |
+| [`BUILD-REPORT.md`](BUILD-REPORT.md) | Last full implementation and deployment report |
+
+## Run Locally
+
+Prerequisites:
+
+- Node.js 22 or later
+- npm
+- `gitleaks` if you are using the repo hooks
 
 ```bash
 npm ci
@@ -20,22 +219,68 @@ cp .env.example .env.local
 npm run dev
 ```
 
-Open `http://localhost:3000/opportunities/project-nova`.
+Open:
+
+```text
+http://localhost:3000/opportunities/project-nova
+```
+
+Seed mode needs no external service. To point the app at Supabase later, apply the migration, seed equivalent rows, set the public Supabase URL and publishable key, and set `USE_SUPABASE=true`.
 
 ## Verification
+
+The normal quality gate is:
 
 ```bash
 npm run validate
 ```
 
+That runs:
+
+```text
+validate-data -> lint:copy -> typecheck -> lint -> test
+```
+
+For a production build:
+
 ```bash
 npm run build
 ```
 
-## Data source
+The last recorded full release check is in [`BUILD-REPORT.md`](BUILD-REPORT.md). It covers validation, tests, static generation, route smoke checks, desktop and mobile browser QA, Lighthouse checks, Vercel deployment, remote HTTP smoke checks and log inspection.
 
-`USE_SUPABASE=false` uses validated YAML in `data/` through `SeedRepository` and requires no external service. To swap to Postgres, apply `supabase/migrations/20260621190524_init.sql`, seed equivalent rows, set the two public Supabase variables in a local or Vercel environment, and set `USE_SUPABASE=true`. The browser receives only a publishable key; never expose a secret or service-role key.
+## Deployment
 
-## Synthetic boundary
+The public demo currently runs on Vercel:
 
-All Project Nova entities, metrics, sources and outputs are synthetic and centralised under `data/` and `content/demo/`. `TODO(init):` marks replaceable pass-1 material and configuration.
+```text
+https://dealstate-zeta.vercel.app
+```
+
+Useful production routes:
+
+```text
+/
+/opportunities
+/opportunities/project-nova
+/methodology
+/opportunities/project-nova/outputs/onboarding-brief
+```
+
+## Synthetic Boundary
+
+Everything in Project Nova is synthetic and centralised under [`data/`](data/) and [`content/demo/`](content/demo/). The repo currently demonstrates product shape, state discipline and UI integrity. It does not yet run live ingestion, retrieval, model calls or real customer data.
+
+The next high-value steps are:
+
+1. Implement full Supabase aggregate hydration.
+2. Add real ingestion adapters for files, email and CRM records.
+3. Replace deterministic chat with structured, cited model outputs.
+4. Add evaluation fixtures for extraction, conflict detection and answer grounding.
+5. Add row-level permission boundaries for firm, fund, deal and user scopes.
+
+## Why This Exists
+
+Most deal tools make teams choose between static files, fragile trackers and chat answers that are hard to audit. DealState takes the other route: keep the source ledger, derive the investment state, expose the gaps, and make the current view easy to inspect.
+
+That is the wedge: one live state for every deal.
