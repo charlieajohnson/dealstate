@@ -25,6 +25,13 @@ const surfaces = [
   ["Outputs", "Briefs, updates and request lists generate from current state."],
 ];
 
+const closingRegister = [
+  ["Current state", "Continue diligence"],
+  ["Confidence", "Medium"],
+  ["Source coverage", "46%"],
+  ["Open issues", "5"],
+] as const;
+
 export function DistinctionSection() {
   return (
     <section className="shell section-band" id="distinction">
@@ -196,13 +203,27 @@ export function TrustSection() {
 export function ClosingCta() {
   return (
     <section className="shell cta-band">
-      <h2>Here is the current investment state of the deal.</h2>
-      <p className="body-large">
-        Where it came from, what changed, what conflicts, and what still needs review.
-      </p>
-      <Link className="btn btn-primary" href="/opportunities/project-nova">
-        View demo deal
-      </Link>
+      <div className="cta-copy">
+        <h2>Here is the current investment state of the deal.</h2>
+        <p className="body-large">
+          Where it came from, what changed, what conflicts, and what still needs review.
+        </p>
+        <Link className="btn btn-primary" href="/opportunities/project-nova">
+          View demo deal
+        </Link>
+      </div>
+      <div className="cta-register" aria-label="Project Nova current-state register">
+        <div className="cta-register-head">
+          <span className="module-kicker">Latest-state seal</span>
+          <strong>Project Nova</strong>
+        </div>
+        {closingRegister.map(([label, value]) => (
+          <div className="cta-register-row" key={label}>
+            <span>{label}</span>
+            <strong>{value}</strong>
+          </div>
+        ))}
+      </div>
     </section>
   );
 }

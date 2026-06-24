@@ -7,17 +7,33 @@ const sourceSlips = [
 ] as const;
 
 const registerRows = [
-  ["Fact derived", "ARR currently recorded at €18.4m"],
+  ["Current truth", "ARR currently recorded at €18.4m"],
   ["Conflict", "IC memo still carries €17.8m"],
   ["Missing item", "Customer cohort analysis requested"],
   ["Latest state", "Continue diligence"],
+] as const;
+
+const registerFacts = [
+  "14 sources",
+  "1 ARR conflict",
+  "5 open issues",
+  "v0.7 current state",
+  "Medium confidence",
+  "Last reviewed 22 Jun",
 ] as const;
 
 export function HeroProductVignette() {
   return (
     <div className="product-vignette" aria-label="Project Nova source-to-state register preview">
       <div className="archive-caption">
-        <span className="module-kicker">Project Nova case packet</span>
+        <div>
+          <span className="module-kicker">Project Nova case packet</span>
+          <div className="vignette-meta" aria-label="Register facts">
+            {registerFacts.map((fact) => (
+              <span key={fact}>{fact}</span>
+            ))}
+          </div>
+        </div>
         <strong>Source-to-state register</strong>
       </div>
 
@@ -39,7 +55,7 @@ export function HeroProductVignette() {
 
       <section className="state-register" aria-label="Derived state">
         <div className="register-head">
-          <span className="module-kicker">Current truth</span>
+          <span className="module-kicker">Derived register</span>
           <strong>v0.7</strong>
         </div>
         {registerRows.map(([label, value]) => (
