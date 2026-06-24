@@ -1,8 +1,8 @@
 import Link from "next/link";
+import {InvestmentStateAtelier} from "@/components/landing/InvestmentStateAtelier";
 import {HeroProductVignette} from "@/components/landing/HeroProductVignette";
 import {
   ClosingCta,
-  DistinctionSection,
   StateLoopSection,
   StateSurfacesSection,
   TrustSection,
@@ -41,7 +41,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <DistinctionSection />
+      <InvestmentStateAtelier />
       <StateLoopSection />
       <WorkspacePreviewSection />
       <StateSurfacesSection />

@@ -1,14 +1,5 @@
 import Link from "next/link";
 
-const documentItems = [
-  ["Files received", "Facts derived"],
-  ["Notes written", "Claims supported"],
-  ["Numbers copied", "Numbers reconciled"],
-  ["Updates scattered", "Changes versioned"],
-  ["Missing items hidden", "Missing items tracked"],
-  ["Summaries stale", "State stays live"],
-];
-
 const loop = [
   ["Ingest", "Collect files, emails, notes, updates and artefacts."],
   ["Derive", "Extract facts, claims, numbers, dates, owners and obligations."],
@@ -31,43 +22,6 @@ const closingRegister = [
   ["Source coverage", "46%"],
   ["Open issues", "5"],
 ] as const;
-
-export function DistinctionSection() {
-  return (
-    <section className="shell section-band" id="distinction">
-      <div className="section-head">
-        <div>
-          <span className="module-kicker">The distinction</span>
-          <h2>Documents record what arrived. Investment state records what the team believes.</h2>
-        </div>
-        <p>
-          DealState keeps the source material visible, but the product centre is the derived, versioned state:
-          facts, issues, conflicts, missing items and memo-ready conclusions.
-        </p>
-      </div>
-      <div className="distinction-grid">
-        <article className="card distinction-card">
-          <span className="module-kicker">Documents</span>
-          <h3>Inputs</h3>
-          <ul>
-            {documentItems.map(([document]) => (
-              <li key={document}>{document}</li>
-            ))}
-          </ul>
-        </article>
-        <article className="card distinction-card state-card">
-          <span className="module-kicker">Investment state</span>
-          <h3>Current truth</h3>
-          <ul>
-            {documentItems.map(([, state]) => (
-              <li key={state}>{state}</li>
-            ))}
-          </ul>
-        </article>
-      </div>
-    </section>
-  );
-}
 
 export function StateLoopSection() {
   return (

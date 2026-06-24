@@ -55,6 +55,15 @@
   --narrow-max: 900px;
   --gutter: clamp(24px, 4vw, 64px);
   --font-serif: "Cormorant Garamond", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  --ds-paper: #f4f1e8;
+  --ds-paper-soft: #faf8f0;
+  --ds-ink: #25231f;
+  --ds-muted: #686257;
+  --ds-line: #d8cfbd;
+  --ds-gold: #b18442;
+  --ds-teal: #5f9c98;
+  --ds-teal-dark: #2f7274;
+  --ds-red: #b64f3f;
   --shadow-soft:
     0 1px 1px rgba(34, 33, 30, 0.04),
     0 18px 48px rgba(34, 33, 30, 0.08);
