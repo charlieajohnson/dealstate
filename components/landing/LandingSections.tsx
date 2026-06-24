@@ -1,13 +1,5 @@
 import Link from "next/link";
 
-const loop = [
-  ["Ingest", "Collect files, emails, notes, updates and artefacts."],
-  ["Derive", "Extract facts, claims, numbers, dates, owners and obligations."],
-  ["Reconcile", "Surface conflicts, unsupported claims, missing data and superseded materials."],
-  ["Version", "Track what changed since the last review."],
-  ["Act", "Ask source-backed questions and generate investment work from current state."],
-];
-
 const surfaces = [
   ["Facts", "Material numbers and claims stay attached to sources."],
   ["Issues", "Risks, conflicts and unsupported claims remain visible."],
@@ -22,35 +14,6 @@ const closingRegister = [
   ["Source coverage", "46%"],
   ["Open issues", "5"],
 ] as const;
-
-export function StateLoopSection() {
-  return (
-    <section className="shell section-band" id="state-loop">
-      <div className="section-head">
-        <div>
-          <span className="module-kicker">The state loop</span>
-          <h2>From artefacts to investment state.</h2>
-        </div>
-        <p>
-          DealState derives facts, issues, conflicts and missing items from deal materials, then keeps that state
-          versioned as new information arrives.
-        </p>
-      </div>
-      <div className="source-loop-plate" aria-hidden="true" />
-      <div className="loop-grid" aria-label="Input to state workflow">
-        {loop.map(([title, body], index) => (
-          <article className="card loop-step" key={title}>
-            <span className="numeric">0{index + 1}</span>
-            <div>
-              <h3>{title}</h3>
-              <p>{body}</p>
-            </div>
-          </article>
-        ))}
-      </div>
-    </section>
-  );
-}
 
 export function WorkspacePreviewSection() {
   return (
