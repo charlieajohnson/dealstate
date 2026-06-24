@@ -1,107 +1,56 @@
-const metricCards = [
-  {
-    label: "ARR",
-    value: "€18.4m",
-    meta: "May model",
-    confidence: "High",
-    sources: ["Model", "Memo"],
-  },
-  {
-    label: "Growth",
-    value: "24%",
-    meta: "FY25 ARR",
-    confidence: "Medium",
-    sources: ["Deck"],
-  },
-  {
-    label: "NRR",
-    value: "112%",
-    meta: "cohort file missing",
-    confidence: "Low",
-    sources: ["Deck"],
-  },
-];
+import type {CSSProperties} from "react";
 
-const changes = [
-  ["+", "May financial model added", "€18.4m ARR reported"],
-  ["!", "ARR conflict surfaced", "IC memo still says €17.8m"],
-  ["+", "Cohort analysis requested", "Retention evidence remains open"],
-  ["-", "April model superseded", "Old pipeline export marked stale"],
-];
+const sourceSlips = [
+  ["Memo", "IC draft, p.4", "€17.8m ARR"],
+  ["Model", "May version", "€18.4m ARR"],
+  ["Email", "CFO update", "Cohort file pending"],
+] as const;
 
-const issues = [
-  "Revenue quality unclear",
-  "ARR differs across materials",
-  "EBITDA add-backs unsupported",
-];
+const registerRows = [
+  ["Fact derived", "ARR currently recorded at €18.4m"],
+  ["Conflict", "IC memo still carries €17.8m"],
+  ["Missing item", "Customer cohort analysis requested"],
+  ["Latest state", "Continue diligence"],
+] as const;
 
 export function HeroProductVignette() {
   return (
-    <div className="product-vignette" aria-label="Project Nova live investment-state preview">
-      <div className="vignette-top">
-        <div>
-          <strong>Project Nova</strong>
-          <div className="vignette-tabs" aria-hidden="true">
-            <span>State</span>
-            <span>Sources</span>
-            <span>Issues</span>
-            <span>Changes</span>
-            <span>Outputs</span>
-          </div>
+    <div className="product-vignette" aria-label="Project Nova source-to-state register preview">
+      <div className="archive-caption">
+        <span className="module-kicker">Project Nova case packet</span>
+        <strong>Source-to-state register</strong>
+      </div>
+
+      <div className="source-slip-stack" aria-label="Source material">
+        {sourceSlips.map(([label, meta, value], index) => (
+          <article className="source-slip" key={label} style={{"--slip-index": index} as CSSProperties}>
+            <span>{label}</span>
+            <strong>{value}</strong>
+            <p>{meta}</p>
+          </article>
+        ))}
+      </div>
+
+      <div className="provenance-lines" aria-hidden="true">
+        <span />
+        <span />
+        <span />
+      </div>
+
+      <section className="state-register" aria-label="Derived state">
+        <div className="register-head">
+          <span className="module-kicker">Current truth</span>
+          <strong>v0.7</strong>
         </div>
-        <span className="evidence-strip">14 sources · 1 ARR conflict · 5 open issues</span>
-      </div>
-
-      <div className="vignette-body">
-        <section className="vignette-panel" aria-label="Investment state">
-          <h2>Investment state</h2>
-          <div className="vignette-metrics">
-            {metricCards.map((metric) => (
-              <article className="vignette-metric" key={metric.label}>
-                <div>
-                  <span>{metric.label}</span>
-                  <strong className="numeric">{metric.value}</strong>
-                  <p className="muted">{metric.meta}</p>
-                </div>
-                <div>
-                  <span className="tag tag-medium">{metric.confidence}</span>
-                  <div className="vignette-source">
-                    {metric.sources.map((source) => (
-                      <span key={source}>{source}</span>
-                    ))}
-                  </div>
-                </div>
-              </article>
-            ))}
+        {registerRows.map(([label, value]) => (
+          <div className="register-row" data-kind={label.toLowerCase().replaceAll(" ", "-")} key={label}>
+            <span>{label}</span>
+            <strong>{value}</strong>
           </div>
-          <div className="vignette-conflict">
-            <strong>Conflict detected</strong>
-            <p>May model reports €18.4m ARR. IC memo draft reports €17.8m. Review the ARR bridge before IC.</p>
-          </div>
-        </section>
+        ))}
+      </section>
 
-        <aside className="vignette-rail" aria-label="Changed since last review">
-          <h2>Changed since last review</h2>
-          {changes.map(([symbol, title, note]) => (
-            <div className="change-chip" key={title}>
-              <span className="change-dot">{symbol}</span>
-              <div>
-                <strong>{title}</strong>
-                <p className="muted">{note}</p>
-              </div>
-            </div>
-          ))}
-        </aside>
-
-        <section className="vignette-issues" aria-label="Open diligence issues">
-          <h2>Open issues</h2>
-          <ol>
-            {issues.map((issue) => (
-              <li key={issue}>{issue}</li>
-            ))}
-          </ol>
-        </section>
-      </div>
+      <div className="archive-seal">Latest state</div>
     </div>
   );
 }

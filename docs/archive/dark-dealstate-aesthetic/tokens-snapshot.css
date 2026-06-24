@@ -1,0 +1,72 @@
+:root {
+  --canvas: #f4f6f2;
+  --canvas-warm: #edf1eb;
+  --surface: #fffdf8;
+  --surface-cool: #f8faf7;
+  --surface-raised: #ffffff;
+  --ink: #101820;
+  --ink-secondary: #26343a;
+  --ink-soft: #26343a;
+  --ink-muted: #6f7775;
+  --muted: #6f7775;
+  --border: #d6ded8;
+  --border-strong: #b7c3bd;
+  --hairline: #d6ded8;
+  --hairline-soft: #e5ebe6;
+  --dusk: #172533;
+  --dusk-soft: #243849;
+  --estuary: #365f70;
+  --primary: #164f3a;
+  --primary-hover: #0f3f2d;
+  --teal: #3b8a8d;
+  --accent: #b57922;
+  --positive: #7f9b72;
+  --caution: #b57922;
+  --negative: #a2482f;
+  --gold-wash: #e8c36a;
+  --radius-control: 10px;
+  --radius-sm: 10px;
+  --radius-card: 16px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-xl: 32px;
+  --page-max: 1440px;
+  --content-max: 1240px;
+  --narrow-max: 900px;
+  --gutter: clamp(24px, 4vw, 64px);
+  --shadow-soft:
+    0 1px 2px rgba(16, 24, 32, 0.06),
+    0 22px 64px rgba(16, 24, 32, 0.16);
+  --shadow-product:
+    0 2px 8px rgba(16, 24, 32, 0.18),
+    0 32px 96px rgba(16, 24, 32, 0.28);
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.dark {
+  --canvas: #101820;
+  --canvas-warm: #111b23;
+  --surface: #17222c;
+  --surface-cool: #1d2a34;
+  --surface-raised: #22313d;
+  --ink: #f5f2ea;
+  --ink-secondary: #d7ded8;
+  --ink-soft: #d7ded8;
+  --ink-muted: #9aa6a1;
+  --muted: #9aa6a1;
+  --border: #30414a;
+  --border-strong: #415661;
+  --hairline: #30414a;
+  --hairline-soft: #263640;
+  --dusk: #0b1117;
+  --dusk-soft: #17222c;
+  --estuary: #7bc7c4;
+  --primary: #a6c5a0;
+  --primary-hover: #c2ddbb;
+  --teal: #7bc7c4;
+  --accent: #d0a35a;
+  --positive: #a6c5a0;
+  --caution: #d0a35a;
+  --negative: #d6846f;
+  --gold-wash: #e8c36a;
+}

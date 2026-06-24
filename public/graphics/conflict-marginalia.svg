@@ -1,0 +1,12 @@
+<svg width="520" height="320" viewBox="0 0 520 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ARR conflict marginalia">
+  <rect width="520" height="320" rx="20" fill="#fffaf0"/>
+  <path d="M84 70h250M84 116h250M84 162h250M84 208h250" stroke="#d8cdbd"/>
+  <path d="M364 68c42 34 38 102-10 134" fill="none" stroke="#a94d43" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="392" cy="74" r="8" fill="#a94d43"/>
+  <g font-family="Inter, Arial, sans-serif" fill="#22211e">
+    <text x="84" y="102" font-size="20" font-weight="700">ARR: €18.4m</text>
+    <text x="84" y="148" font-size="20" font-weight="700">ARR: €17.8m</text>
+    <text x="372" y="132" font-size="18" fill="#a94d43" font-weight="700">review</text>
+    <text x="372" y="156" font-size="18" fill="#a94d43" font-weight="700">required</text>
+  </g>
+</svg>

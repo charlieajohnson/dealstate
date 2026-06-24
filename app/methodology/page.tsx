@@ -17,7 +17,7 @@ const sections = [
     body: "Every material claim, number and issue should trace back to a source, confidence level and review state. Unsupported claims remain visible as unsupported. Conflicting sources remain visible as conflicts.",
   },
   {
-    title: "The dashboard is the durable object.",
+    title: "The state register is the durable object.",
     body: "Chat can answer questions over the state, but the operating surface is where the team inspects what is known, questioned, missing and changed.",
   },
   {
@@ -34,7 +34,7 @@ export default function MethodologyPage() {
   return (
     <main className="shell methodology page-pad">
       <span className="module-kicker">Trust model</span>
-      <h1>How DealState derives investment state.</h1>
+      <h1>Source-backed state, not loose summary.</h1>
       <p className="lead">
         The method is simple: preserve sources, derive typed state, expose gaps and conflicts, then version the current
         view as new deal material arrives.

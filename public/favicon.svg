@@ -1,0 +1,7 @@
+<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="DealState">
+  <rect width="64" height="64" rx="14" fill="#f6f2e8"/>
+  <rect x="17" y="12" width="30" height="40" rx="4" fill="#fffaf0" stroke="#d8cdbd" stroke-width="2"/>
+  <path d="M23 24h18M23 31h14M23 38h18" stroke="#173f35" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="44" cy="20" r="4" fill="#a94d43"/>
+  <path d="M20 48h24" stroke="#b89452" stroke-width="3" stroke-linecap="round"/>
+</svg>

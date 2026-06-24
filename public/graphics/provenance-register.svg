@@ -1,0 +1,19 @@
+<svg width="720" height="420" viewBox="0 0 720 420" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Provenance chain from source to claim">
+  <rect width="720" height="420" rx="22" fill="#fffaf0"/>
+  <g fill="#fffaf0" stroke="#bfb2a0" stroke-width="2">
+    <rect x="70" y="86" width="140" height="90" rx="12"/>
+    <rect x="290" y="86" width="140" height="90" rx="12"/>
+    <rect x="510" y="86" width="140" height="90" rx="12"/>
+    <rect x="180" y="250" width="360" height="86" rx="12"/>
+  </g>
+  <g fill="none" stroke="#7fa7a4" stroke-width="3" stroke-linecap="round">
+    <path d="M210 132h80M430 132h80M360 176v74"/>
+  </g>
+  <g font-family="Inter, Arial, sans-serif" fill="#22211e" text-anchor="middle">
+    <text x="140" y="126" font-size="18" font-weight="700">Memo</text>
+    <text x="360" y="126" font-size="18" font-weight="700">Model</text>
+    <text x="580" y="126" font-size="18" font-weight="700">Email</text>
+    <text x="360" y="296" font-size="20" font-weight="700">Supported claim</text>
+  </g>
+  <text x="360" y="42" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14" letter-spacing="2" fill="#b89452">PROVENANCE REGISTER</text>
+</svg>

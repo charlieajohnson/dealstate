@@ -1,0 +1,15 @@
+<svg width="1040" height="340" viewBox="0 0 1040 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ingest, derive, reconcile, version and act loop">
+  <rect width="1040" height="340" rx="24" fill="#fffaf0"/>
+  <path d="M154 172C246 54 414 54 520 172s274 118 366 0" fill="none" stroke="#7fa7a4" stroke-width="3" stroke-linecap="round" stroke-dasharray="11 12"/>
+  <path d="M886 172l-30-8 16 28z" fill="#7fa7a4"/>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" letter-spacing="1.8" fill="#b89452">
+    <text x="130" y="58">01</text><text x="322" y="58">02</text><text x="514" y="58">03</text><text x="706" y="58">04</text><text x="898" y="58">05</text>
+  </g>
+  <g font-family="Inter, Arial, sans-serif" fill="#22211e" text-anchor="middle">
+    <g><circle cx="150" cy="172" r="48" fill="#d8ece8"/><text x="150" y="166" font-size="19" font-weight="700">Ingest</text><text x="150" y="190" font-size="12" fill="#4a4741">sources</text></g>
+    <g><circle cx="342" cy="172" r="48" fill="#fffaf0" stroke="#d8cdbd"/><text x="342" y="166" font-size="19" font-weight="700">Derive</text><text x="342" y="190" font-size="12" fill="#4a4741">facts</text></g>
+    <g><circle cx="534" cy="172" r="48" fill="#f6f2e8" stroke="#d8cdbd"/><text x="534" y="166" font-size="19" font-weight="700">Reconcile</text><text x="534" y="190" font-size="12" fill="#a94d43">conflicts</text></g>
+    <g><circle cx="726" cy="172" r="48" fill="#fffaf0" stroke="#d8cdbd"/><text x="726" y="166" font-size="19" font-weight="700">Version</text><text x="726" y="190" font-size="12" fill="#4a4741">changes</text></g>
+    <g><circle cx="918" cy="172" r="48" fill="#173f35"/><text x="918" y="166" font-size="19" fill="#f9f7f1" font-weight="700">Act</text><text x="918" y="190" font-size="12" fill="#f9f7f1">memo-ready</text></g>
+  </g>
+</svg>

@@ -1,0 +1,14 @@
+<svg width="640" height="480" viewBox="0 0 640 480" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Archive cards for Project Nova state">
+  <rect width="640" height="480" fill="none"/>
+  <g opacity=".72">
+    <rect x="84" y="70" width="340" height="210" rx="18" fill="#fffaf0" stroke="#d8cdbd" stroke-width="2"/>
+    <rect x="140" y="150" width="340" height="210" rx="18" fill="#fffaf0" stroke="#d8cdbd" stroke-width="2"/>
+    <rect x="214" y="92" width="340" height="210" rx="18" fill="#eff4ef" stroke="#d8cdbd" stroke-width="2"/>
+  </g>
+  <g stroke="#bfb2a0">
+    <path d="M248 150h260M248 194h210M248 238h240"/>
+    <path d="M174 208h240M174 252h210M174 296h236"/>
+  </g>
+  <circle cx="494" cy="276" r="48" fill="none" stroke="#b89452" stroke-width="4"/>
+  <circle cx="518" cy="126" r="10" fill="#a94d43"/>
+</svg>

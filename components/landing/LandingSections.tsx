@@ -75,6 +75,7 @@ export function StateLoopSection() {
           versioned as new information arrives.
         </p>
       </div>
+      <div className="source-loop-plate" aria-hidden="true" />
       <div className="loop-grid" aria-label="Input to state workflow">
         {loop.map(([title, body], index) => (
           <article className="card loop-step" key={title}>
@@ -95,7 +96,7 @@ export function WorkspacePreviewSection() {
     <section className="shell section-band workspace-preview" id="workspace-preview">
       <div className="preview-panel">
         <span className="module-kicker">Project Nova</span>
-        <h2>A live deal-state observatory, not a file store.</h2>
+        <h2>A live state register, not a file store.</h2>
         <p className="body-large">
           Open the synthetic demo to inspect the current state, provenance, conflicts, missing materials, latest
           changes, source-backed answers and generated outputs.
@@ -142,10 +143,10 @@ export function StateSurfacesSection() {
       <div className="section-head">
         <div>
           <span className="module-kicker">State surfaces</span>
-          <h2>The dashboard is the product.</h2>
+          <h2>The state register is the product.</h2>
         </div>
         <p>
-          Chat can query the state, but the durable value is the operating surface the whole team can inspect.
+          Chat can query the state, but the durable value is the versioned register the whole team can inspect.
         </p>
       </div>
       <div className="surface-grid">
@@ -173,7 +174,7 @@ export function TrustSection() {
         </p>
         <p>
           <Link className="quiet-link" href="/methodology">
-            Read the methodology →
+            Read the methodology
           </Link>
         </p>
       </article>

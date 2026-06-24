@@ -1,0 +1,44 @@
+<svg width="900" height="640" viewBox="0 0 900 640" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="DealState source documents becoming a state register">
+  <rect width="900" height="640" rx="28" fill="#fffaf0"/>
+  <g fill="none" stroke="#d8cdbd" stroke-width="1">
+    <path d="M92 96h716M92 160h716M92 224h716M92 288h716M92 352h716M92 416h716M92 480h716"/>
+    <path d="M242 76v474M452 76v474M660 76v474"/>
+  </g>
+  <g fill="#2f7f82" opacity=".1">
+    <circle cx="720" cy="126" r="96"/>
+    <circle cx="188" cy="470" r="128"/>
+  </g>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="18" letter-spacing="2" fill="#b89452">
+    <text x="94" y="68">SOURCE LEDGER</text>
+    <text x="492" y="68">DERIVED STATE</text>
+  </g>
+  <g fill="#fffaf0" stroke="#bfb2a0" stroke-width="2">
+    <rect x="116" y="112" width="190" height="112" rx="10"/>
+    <rect x="138" y="256" width="190" height="112" rx="10"/>
+    <rect x="112" y="400" width="190" height="112" rx="10"/>
+  </g>
+  <g font-family="Inter, Arial, sans-serif" fill="#22211e">
+    <text x="138" y="150" font-size="24" font-weight="700">Memo</text>
+    <text x="138" y="182" font-size="18" fill="#777168">€17.8m ARR</text>
+    <text x="160" y="294" font-size="24" font-weight="700">Model</text>
+    <text x="160" y="326" font-size="18" fill="#777168">€18.4m ARR</text>
+    <text x="134" y="438" font-size="24" font-weight="700">Email</text>
+    <text x="134" y="470" font-size="18" fill="#777168">Cohort pending</text>
+  </g>
+  <g fill="none" stroke="#7fa7a4" stroke-width="3" stroke-linecap="round" stroke-dasharray="8 10">
+    <path d="M320 170C410 170 442 188 500 222"/>
+    <path d="M342 312C418 312 452 306 500 288"/>
+    <path d="M316 456C410 456 442 414 500 356"/>
+  </g>
+  <rect x="516" y="178" width="272" height="264" rx="18" fill="#fffaf0" stroke="#bfb2a0" stroke-width="2"/>
+  <path d="M516 236h272M516 296h272M516 356h272" stroke="#d8cdbd"/>
+  <g font-family="Inter, Arial, sans-serif" fill="#22211e">
+    <text x="540" y="216" font-size="26" font-weight="700">Current truth</text>
+    <text x="540" y="272" font-size="18">ARR: €18.4m</text>
+    <text x="540" y="332" font-size="18" fill="#a94d43">Conflict: €17.8m memo</text>
+    <text x="540" y="392" font-size="18">State: continue diligence</text>
+  </g>
+  <circle cx="748" cy="446" r="58" fill="none" stroke="#b89452" stroke-width="4"/>
+  <text x="710" y="438" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14" fill="#173f35" font-weight="800">LATEST</text>
+  <text x="714" y="460" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14" fill="#173f35" font-weight="800">STATE</text>
+</svg>

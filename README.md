@@ -7,7 +7,7 @@ Source-backed investment state for private-market deal teams.
 [![Stack](https://img.shields.io/badge/Next.js%2015-TypeScript-111827?style=for-the-badge)](package.json)
 [![Synthetic data](https://img.shields.io/badge/data-synthetic-3b5b50?style=for-the-badge)](data/)
 
-DealState is a live opportunity centre for investment teams. It turns scattered files, emails, CRM updates, notes and generated work into a single, source-backed view of what the team knows, believes, questions and still needs.
+DealState is an archival state register for investment teams. It turns scattered files, emails, CRM updates, notes and generated work into a single, source-backed view of what the team knows, believes, questions and still needs.
 
 It is deliberately not a document repository and not a generic chat-over-files demo. Documents are inputs. DealState is the investment state derived from those inputs.
 
@@ -15,14 +15,14 @@ It is deliberately not a document repository and not a generic chat-over-files d
 
 | Surface | Link | What to look at |
 |---|---|---|
-| Landing page | [dealstate-zeta.vercel.app](https://dealstate-zeta.vercel.app) | Product positioning, visual system and core state loop |
+| Landing page | [dealstate-zeta.vercel.app](https://dealstate-zeta.vercel.app) | Product positioning, Humanist Compute Atelier visual system and core state loop |
 | Demo deal | [/opportunities/project-nova](https://dealstate-zeta.vercel.app/opportunities/project-nova) | Fully populated synthetic deal room |
 | Pipeline | [/opportunities](https://dealstate-zeta.vercel.app/opportunities) | State list with Project Nova plus thin synthetic deal shells |
 | Methodology | [/methodology](https://dealstate-zeta.vercel.app/methodology) | Rules behind source-backed state derivation |
 
-![DealState design direction](docs/design/aesthetic-overhaul-concept.png)
+![DealState source-to-state ledger](public/graphics/dealstate-hero-ledger.svg)
 
-The image above is the design direction that shaped the current app. The live product is implemented as code-native Next.js UI with synthetic Project Nova data.
+The current app uses a Humanist Compute Atelier direction: paper canvas, editorial serif type, sparse institutional navigation, source slips, provenance lines, marginalia and state-register cards. The previous dusk aesthetic is archived under [`docs/archive/dark-dealstate-aesthetic/`](docs/archive/dark-dealstate-aesthetic/).
 
 ## What It Does
 
@@ -141,9 +141,9 @@ DealState is built around a few non-negotiables:
 | Chat is not the source of truth | Chat answers are deterministic in pass 1 and cite the same state ledger |
 | Synthetic means synthetic | The demo makes no claim about a real company, market or transaction |
 
-![Dusk estuary production asset](public/images/blue-hour-estuary.webp)
+![DealState source-to-state loop](public/graphics/source-to-state-loop.svg)
 
-The visual system uses a dusk institutional tone: calm, low-noise, and closer to an investment workspace than a consumer AI landing page.
+The visual system uses an archival paper tone: calm, source-backed and closer to an investment casebook than a generic SaaS dashboard.
 
 ## Architecture
 
@@ -196,7 +196,8 @@ flowchart TB
 | [`lib/scoring.ts`](lib/scoring.ts) | Weighted deal score calculation |
 | [`lib/repo/`](lib/repo/) | Seed and optional Supabase repository boundary |
 | [`scripts/`](scripts/) | YAML validation and copy linting |
-| [`docs/design/`](docs/design/) | Design references and generated visual direction |
+| [`docs/archive/dark-dealstate-aesthetic/`](docs/archive/dark-dealstate-aesthetic/) | Archived pre-overhaul dusk aesthetic, screenshots and restoration notes |
+| [`public/graphics/`](public/graphics/) | Source-to-state SVG graphics used by the Humanist Compute Atelier surface |
 | [`BUILD-REPORT.md`](BUILD-REPORT.md) | Last full implementation and deployment report |
 
 ## Run Locally

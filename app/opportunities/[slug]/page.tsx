@@ -71,6 +71,8 @@ export default async function OpportunityPage({params}: {params: Promise<{slug: 
   });
   const previous = {...state, key_metrics: {...state.key_metrics, arr: {...state.key_metrics.arr!, value: "€17.8m"}}};
   const changes = diffState(previous, state, bundle.events);
+  const arr = state.key_metrics.arr;
+  const nrr = state.key_metrics.nrr;
 
   return (
     <main className="workspace page-pad">
@@ -95,6 +97,39 @@ export default async function OpportunityPage({params}: {params: Promise<{slug: 
           </span>
         </div>
       </header>
+
+      <section className="demo-theatre" aria-labelledby="demo-theatre-title">
+        <div className="demo-theatre-copy">
+          <span className="module-kicker">Product theatre</span>
+          <h2 id="demo-theatre-title">A live state register, not a file store.</h2>
+          <p>
+            Open the synthetic demo to inspect current state, provenance, conflicts, missing materials, latest changes,
+            source-backed answers and generated outputs.
+          </p>
+          <a className="btn btn-primary" href="#overview">
+            Enter Project Nova
+          </a>
+        </div>
+        <div className="theatre-slips" aria-label="Project Nova state alerts">
+          <article>
+            <span className="module-kicker">Current state</span>
+            <strong>Continue diligence</strong>
+            <p>Medium confidence, source coverage {state.source_coverage_score}%.</p>
+          </article>
+          <article data-alert="conflict">
+            <span className="module-kicker">Metric conflict</span>
+            <strong>
+              {arr?.value ?? "€18.4m"} ARR vs {arr?.conflicts[0]?.value ?? "€17.8m"} ARR
+            </strong>
+            <p>Model and IC memo need reconciliation.</p>
+          </article>
+          <article>
+            <span className="module-kicker">Missing material</span>
+            <strong>Customer cohort analysis</strong>
+            <p>{nrr ? "Required to support NRR and retention claims." : "Required before the next review."}</p>
+          </article>
+        </div>
+      </section>
 
       <div className="deal-shell">
         <nav className="workspace-rail card" aria-label="Opportunity workspace sections">

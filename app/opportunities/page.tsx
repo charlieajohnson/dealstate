@@ -4,9 +4,9 @@ import {ConfidenceTag} from "@/components/common/Provenance";
 import {getRepository} from "@/lib/repo";
 
 const summaries: Record<string, string> = {
-  "project-nova": "14 sources · 5 open issues · updated today",
-  "project-atlas": "6 sources · 8 missing items · updated yesterday",
-  "project-fen": "22 sources · 2 conflicts · updated 3 days ago",
+  "project-nova": "Source coverage 46% · 5 open issues · 1 conflict",
+  "project-atlas": "6 sources · 8 missing items · synthetic shell",
+  "project-fen": "22 sources · 2 conflicts · synthetic shell",
 };
 
 export default async function OpportunitiesPage() {
@@ -15,11 +15,11 @@ export default async function OpportunitiesPage() {
   return (
     <main className="shell page-pad">
       <div className="page-intro">
-        <span className="module-kicker">Deal pipeline</span>
-        <h1>Opportunities</h1>
+        <span className="module-kicker">Case register</span>
+        <h1>Opportunity register</h1>
         <p className="lead">
-          A state list for active opportunities. Project Nova is fully populated; the others are thin synthetic
-          placeholders for workspace realism.
+          Live state across active opportunities. Project Nova is fully populated; the others are thin synthetic
+          shells for register context.
         </p>
       </div>
 
@@ -31,7 +31,7 @@ export default async function OpportunitiesPage() {
               <div>
                 {active ? (
                   <Link className="quiet-link" href={`/opportunities/${item.slug}`}>
-                    Open workspace
+                    Open state
                   </Link>
                 ) : (
                   <span className="tag">Synthetic placeholder</span>
