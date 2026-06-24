@@ -1,9 +1,11 @@
 import type {CSSProperties} from "react";
 
+type SourceSlipStyle = CSSProperties & {"--slip-entry": string; "--slip-shift": string; "--slip-delay": string};
+
 const sourceSlips = [
-  ["Memo", "IC draft, p.4", "€17.8m ARR"],
-  ["Model", "May version", "€18.4m ARR"],
-  ["Email", "CFO update", "Cohort file pending"],
+  ["Memo", "IC draft, p.4", "€17.8m ARR", "memo"],
+  ["Model", "May version", "€18.4m ARR", "model"],
+  ["Email", "CFO update", "Cohort file pending", "email"],
 ] as const;
 
 const registerRows = [
@@ -25,27 +27,57 @@ const registerFacts = [
 export function HeroProductVignette() {
   return (
     <div className="product-vignette" aria-label="Project Nova source-to-state register preview">
+      <img
+        className="hero-tableau-image"
+        src="/images/dealstate/hero-archive-room.webp"
+        alt=""
+        decoding="async"
+        fetchPriority="high"
+      />
+      <div className="hero-tableau-overlay" aria-hidden="true" />
+      <div className="hero-tableau-dots" aria-hidden="true" />
+      <div className="hero-tableau-fold" aria-hidden="true" />
+
       <div className="archive-caption">
         <div>
           <span className="module-kicker">Project Nova case packet</span>
           <div className="vignette-meta" aria-label="Register facts">
             {registerFacts.map((fact) => (
-              <span key={fact}>{fact}</span>
+              <span data-kind={fact.startsWith("v0.7") ? "version" : undefined} key={fact}>
+                {fact}
+              </span>
             ))}
           </div>
         </div>
         <strong>Source-to-state register</strong>
       </div>
 
-      <div className="source-slip-stack" aria-label="Source material">
-        {sourceSlips.map(([label, meta, value], index) => (
-          <article className="source-slip" key={label} style={{"--slip-index": index} as CSSProperties}>
-            <span>{label}</span>
-            <strong>{value}</strong>
-            <p>{meta}</p>
-          </article>
-        ))}
-      </div>
+      <section className="source-ledger" aria-label="Source ledger">
+        <div className="register-head mini-head">
+          <span className="module-kicker">Source ledger</span>
+          <strong>Incoming</strong>
+        </div>
+        <div className="source-slip-stack">
+          {sourceSlips.map(([label, meta, value, kind], index) => (
+            <article
+              className="source-slip"
+              data-kind={kind}
+              key={label}
+              style={
+                {
+                  "--slip-entry": `${index * 8 - 18}px`,
+                  "--slip-shift": `${index * 8}px`,
+                  "--slip-delay": `${index * 1.12}s`,
+                } as SourceSlipStyle
+              }
+            >
+              <span>{label}</span>
+              <strong>{value}</strong>
+              <p>{meta}</p>
+            </article>
+          ))}
+        </div>
+      </section>
 
       <div className="provenance-lines" aria-hidden="true">
         <span />
@@ -66,7 +98,11 @@ export function HeroProductVignette() {
         ))}
       </section>
 
-      <div className="archive-seal">Latest state</div>
+      <div className="archive-seal">
+        Latest
+        <br />
+        state
+      </div>
     </div>
   );
 }
