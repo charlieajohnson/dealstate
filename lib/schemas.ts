@@ -199,6 +199,7 @@ export const RawArtefact = z.object({
 export const ArtefactSegment = z.object({
   id: z.string(),
   raw_artefact_id: z.string(),
+  source_id: z.string(),
   locator: SourceLocator,
   text: z.string(),
   ordinal: z.number().int().nonnegative(),
@@ -242,8 +243,8 @@ export const ExtractionCandidate = z.object({
 
 export const LlmCallRecord = z.object({
   id: z.string(),
-  firm_id: z.string().optional(),
-  deal_id: z.string().optional(),
+  firm_id: z.string(),
+  deal_id: z.string(),
   prompt_id: z.string(),
   prompt_version: z.string(),
   model_id: z.string(),

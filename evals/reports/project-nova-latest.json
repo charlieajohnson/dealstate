@@ -3,7 +3,7 @@
   "live": false,
   "thresholds": {
     "citation_verification": 1,
-    "grounding_faithfulness": 1,
+    "grounding_exact_claim_support": 1,
     "abstention_correctness": 1,
     "max_cost_usd": 0,
     "p50_latency_ms": 0,
@@ -11,6 +11,7 @@
   },
   "results": {
     "schema_validation": "passed",
+    "fixture_files_present": true,
     "overall_score": 61,
     "source_coverage_score": 46,
     "arr_conflict_preserved": true,

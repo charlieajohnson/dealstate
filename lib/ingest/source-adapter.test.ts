@@ -57,8 +57,8 @@ describe("source ingestion", () => {
     await pipelineModule!.runIngestion({adapter: pipelineModule!.createMemorySourceAdapter("gmail", [oldModel]), store, firmId: "firm_demo", dealId: "project_nova"});
     await pipelineModule!.runIngestion({adapter: pipelineModule!.createMemorySourceAdapter("gmail", [newModel]), store, firmId: "firm_demo", dealId: "project_nova"});
 
-    expect(store.listArtefacts().find((item: RawArtefact) => item.id === "raw_april_model")).toMatchObject({
-      supersedes: "raw_may_model",
+    expect(store.listArtefacts().find((item: RawArtefact) => item.id === "raw_may_model")).toMatchObject({
+      supersedes: "raw_april_model",
     });
     expect(store.listArtefacts()).toHaveLength(2);
   });

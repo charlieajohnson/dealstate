@@ -56,4 +56,18 @@ describe("tenant isolation policy", () => {
     expect(sql).toContain('drop policy if exists "read synthetic demo"');
     expect(sql).toContain("public.current_user_firm_ids()");
   });
+
+  it("requires deal rows to match the same firm and owner-only write policies for tenant administration", () => {
+    const sql = fs.readFileSync(migrationPath, "utf8");
+
+    expect(sql).toContain("public.deal_belongs_to_firm");
+    for (const table of ["raw_artefacts", "ingestion_runs", "extraction_runs", "llm_call_records", "retrieval_chunks", "grounded_answers"]) {
+      expect(sql).toMatch(new RegExp(`public\\.deal_belongs_to_firm\\(${table.includes("raw") ? "deal_id" : "deal_id"}, firm_id\\)`));
+    }
+
+    expect(sql).toContain("public.is_firm_owner");
+    expect(sql).toContain('create policy "owners write memberships"');
+    expect(sql).not.toContain('create policy "firm members write firms"');
+    expect(sql).not.toContain('create policy "firm members write funds"');
+  });
 });

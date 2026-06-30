@@ -21,4 +21,19 @@ describe("eval harness skeleton", () => {
 
     expect(packageJson.scripts.eval).toBe("tsx scripts/eval.ts");
   });
+
+  it("eval runner reads committed Project Nova fixture files", () => {
+    const source = fs.readFileSync(path.join(process.cwd(), "scripts", "eval.ts"), "utf8");
+
+    expect(source).toContain("evals/fixtures/project-nova");
+    expect(source).toContain("fixture_files_present");
+  });
+
+  it("XLSX fixtures are real zipped workbooks", () => {
+    for (const file of ["model-may-2026.xlsx", "model-april-2026.xlsx"]) {
+      const bytes = fs.readFileSync(path.join(process.cwd(), "evals", "fixtures", "project-nova", file));
+
+      expect(bytes.subarray(0, 2).toString("utf8")).toBe("PK");
+    }
+  });
 });

@@ -27,6 +27,21 @@ const gold = JSON.parse(fs.readFileSync(path.join(process.cwd(), "evals", "gold"
   arr: {current: string; conflict: string; sources: string[]};
   grounding: {unanswerable_supported: boolean; unanswerable_citations: string[]};
 };
+const live = process.argv.includes("--live");
+if (live) {
+  throw new Error("TODO(pass2): live model eval transport is not implemented. Run offline eval or wire the provider transport first.");
+}
+
+const fixtureDir = path.join(process.cwd(), "evals/fixtures/project-nova");
+const fixtureFiles = [
+  "investment-deck.pdf",
+  "model-may-2026.xlsx",
+  "model-april-2026.xlsx",
+  "founder-arr-bridge.eml",
+  "crm-export.csv",
+];
+const fixtureFilesPresent = fixtureFiles.every((file) => fs.existsSync(path.join(fixtureDir, file)));
+assert(fixtureFilesPresent, "Expected committed Project Nova fixture files");
 
 const opportunities = loadYaml("opportunities").opportunities;
 const documents = loadYaml("documents").documents.filter((item) => item.opportunity_id === gold.opportunity_id);
@@ -61,10 +76,10 @@ assert(abstention.citations.length === gold.grounding.unanswerable_citations.len
 
 const report = {
   id: `project-nova-${new Date().toISOString().slice(0, 10)}`,
-  live: process.argv.includes("--live"),
+  live,
   thresholds: {
     citation_verification: 1,
-    grounding_faithfulness: 1,
+    grounding_exact_claim_support: 1,
     abstention_correctness: 1,
     max_cost_usd: 0,
     p50_latency_ms: 0,
@@ -72,6 +87,7 @@ const report = {
   },
   results: {
     schema_validation: "passed",
+    fixture_files_present: fixtureFilesPresent,
     overall_score: overall,
     source_coverage_score: state.source_coverage_score,
     arr_conflict_preserved: true,

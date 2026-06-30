@@ -5,6 +5,7 @@ describe("extraction materialisation", () => {
   const segment = {
     id: "seg_model_arr",
     raw_artefact_id: "raw_model_may",
+    source_id: "doc_002",
     locator: {kind: "spreadsheet", sheet: "Summary", cell_range: "B4:B4"},
     text: "Annual recurring revenue of EUR 18.4m",
     ordinal: 1,

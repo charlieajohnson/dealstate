@@ -42,9 +42,9 @@ export function createInMemoryIngestionStore(): IngestionStore {
           item.external_id === artefact.external_id &&
           item.content_hash !== artefact.content_hash &&
           item.received_at < artefact.received_at &&
-          !item.supersedes,
+          !artefact.supersedes,
       );
-      if (superseded) superseded.supersedes = artefact.id;
+      if (superseded) artefact.supersedes = superseded.id;
 
       artefacts.push({...artefact});
       return "created";

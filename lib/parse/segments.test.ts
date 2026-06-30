@@ -25,6 +25,7 @@ describe("deterministic segment parsing", () => {
       {
         id: "seg_raw_email_0001",
         raw_artefact_id: "raw_email",
+        source_id: "gmail-msg-1",
         locator: {kind: "email", part: "body", text_range: "1:37"},
         ordinal: 1,
         text: "Annual recurring revenue of EUR 18.4m",

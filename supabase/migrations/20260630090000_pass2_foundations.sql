@@ -31,6 +31,7 @@ create table public.memberships (
 
 alter table public.opportunities add column if not exists firm_id uuid references public.firms(id);
 alter table public.opportunities add column if not exists fund_id uuid references public.funds(id);
+alter table public.opportunities add constraint opportunities_id_firm_id_unique unique (id, firm_id);
 
 create table public.raw_artefacts (
   id text primary key,
@@ -44,6 +45,7 @@ create table public.raw_artefacts (
   received_at timestamptz not null,
   supersedes text references public.raw_artefacts(id),
   pii_flags text[] not null default '{}',
+  constraint raw_artefacts_deal_firm_fk foreign key (deal_id, firm_id) references public.opportunities(id, firm_id) on delete cascade,
   unique (firm_id, source, external_id, content_hash)
 );
 
@@ -65,7 +67,8 @@ create table public.ingestion_runs (
   status text not null check (status in ('running','succeeded','failed')),
   artefacts_seen integer not null default 0,
   artefacts_created integer not null default 0,
-  error text
+  error text,
+  constraint ingestion_runs_deal_firm_fk foreign key (deal_id, firm_id) references public.opportunities(id, firm_id) on delete cascade
 );
 
 create table public.extraction_runs (
@@ -77,7 +80,8 @@ create table public.extraction_runs (
   model_id text not null,
   started_at timestamptz not null,
   finished_at timestamptz,
-  status text not null check (status in ('running','succeeded','failed'))
+  status text not null check (status in ('running','succeeded','failed')),
+  constraint extraction_runs_deal_firm_fk foreign key (deal_id, firm_id) references public.opportunities(id, firm_id) on delete cascade
 );
 
 create table public.extraction_candidates (
@@ -94,7 +98,7 @@ create table public.extraction_candidates (
 create table public.llm_call_records (
   id text primary key,
   firm_id uuid not null references public.firms(id) on delete cascade,
-  deal_id text references public.opportunities(id) on delete set null,
+  deal_id text not null references public.opportunities(id) on delete cascade,
   prompt_id text not null,
   prompt_version text not null,
   model_id text not null,
@@ -104,7 +108,8 @@ create table public.llm_call_records (
   latency_ms numeric not null check (latency_ms >= 0),
   cache_hit boolean not null,
   input_hash text not null,
-  created_at timestamptz not null
+  created_at timestamptz not null,
+  constraint llm_call_records_deal_firm_fk foreign key (deal_id, firm_id) references public.opportunities(id, firm_id) on delete cascade
 );
 
 create table public.retrieval_chunks (
@@ -115,7 +120,8 @@ create table public.retrieval_chunks (
   embedding vector(1536),
   tsv tsvector,
   token_count integer not null check (token_count >= 0),
-  content_hash text not null
+  content_hash text not null,
+  constraint retrieval_chunks_deal_firm_fk foreign key (deal_id, firm_id) references public.opportunities(id, firm_id) on delete cascade
 );
 
 create table public.grounded_answers (
@@ -126,7 +132,8 @@ create table public.grounded_answers (
   answer jsonb not null,
   prompt_id text not null,
   model_id text not null,
-  created_at timestamptz not null default now()
+  created_at timestamptz not null default now(),
+  constraint grounded_answers_deal_firm_fk foreign key (deal_id, firm_id) references public.opportunities(id, firm_id) on delete cascade
 );
 
 create or replace function public.current_user_firm_ids()
@@ -147,6 +154,53 @@ security definer
 set search_path = public
 as $$
   select target_firm_id = any(public.current_user_firm_ids())
+$$;
+
+create or replace function public.is_firm_owner(target_firm_id uuid)
+returns boolean
+language sql
+stable
+security definer
+set search_path = public
+as $$
+  select exists (
+    select 1
+    from public.memberships
+    where user_id = auth.uid()
+      and firm_id = target_firm_id
+      and role = 'owner'
+  )
+$$;
+
+create or replace function public.can_write_firm(target_firm_id uuid)
+returns boolean
+language sql
+stable
+security definer
+set search_path = public
+as $$
+  select exists (
+    select 1
+    from public.memberships
+    where user_id = auth.uid()
+      and firm_id = target_firm_id
+      and role in ('owner','contributor')
+  )
+$$;
+
+create or replace function public.deal_belongs_to_firm(target_deal_id text, target_firm_id uuid)
+returns boolean
+language sql
+stable
+security definer
+set search_path = public
+as $$
+  select exists (
+    select 1
+    from public.opportunities
+    where id = target_deal_id
+      and firm_id = target_firm_id
+  )
 $$;
 
 drop policy if exists "read synthetic demo" on public.opportunities;
@@ -202,16 +256,16 @@ revoke all on all tables in schema public from anon, authenticated;
 grant select, insert, update, delete on all tables in schema public to authenticated;
 
 create policy "firm members read firms" on public.firms for select to authenticated using (public.can_access_firm(id));
-create policy "firm members write firms" on public.firms for all to authenticated using (public.can_access_firm(id)) with check (public.can_access_firm(id));
+create policy "owners write firms" on public.firms for all to authenticated using (public.is_firm_owner(id)) with check (public.is_firm_owner(id));
 
 create policy "firm members read funds" on public.funds for select to authenticated using (public.can_access_firm(firm_id));
-create policy "firm members write funds" on public.funds for all to authenticated using (public.can_access_firm(firm_id)) with check (public.can_access_firm(firm_id));
+create policy "owners write funds" on public.funds for all to authenticated using (public.is_firm_owner(firm_id)) with check (public.is_firm_owner(firm_id));
 
 create policy "users read own memberships" on public.memberships for select to authenticated using (user_id = auth.uid() or public.can_access_firm(firm_id));
-create policy "owners write memberships" on public.memberships for all to authenticated using (public.can_access_firm(firm_id)) with check (public.can_access_firm(firm_id));
+create policy "owners write memberships" on public.memberships for all to authenticated using (public.is_firm_owner(firm_id)) with check (public.is_firm_owner(firm_id));
 
 create policy "firm members read opportunities" on public.opportunities for select to authenticated using (firm_id is not null and public.can_access_firm(firm_id));
-create policy "firm members write opportunities" on public.opportunities for all to authenticated using (firm_id is not null and public.can_access_firm(firm_id)) with check (firm_id is not null and public.can_access_firm(firm_id));
+create policy "contributors write opportunities" on public.opportunities for all to authenticated using (firm_id is not null and public.can_write_firm(firm_id)) with check (firm_id is not null and public.can_write_firm(firm_id));
 
 create policy "firm members read documents" on public.documents for select to authenticated using (exists (select 1 from public.opportunities o where o.id = opportunity_id and public.can_access_firm(o.firm_id)));
 create policy "firm members write documents" on public.documents for all to authenticated using (exists (select 1 from public.opportunities o where o.id = opportunity_id and public.can_access_firm(o.firm_id))) with check (exists (select 1 from public.opportunities o where o.id = opportunity_id and public.can_access_firm(o.firm_id)));
@@ -234,26 +288,26 @@ create policy "firm members write deal_scores" on public.deal_scores for all to 
 create policy "firm members read generated_outputs" on public.generated_outputs for select to authenticated using (exists (select 1 from public.opportunities o where o.id = opportunity_id and public.can_access_firm(o.firm_id)));
 create policy "firm members write generated_outputs" on public.generated_outputs for all to authenticated using (exists (select 1 from public.opportunities o where o.id = opportunity_id and public.can_access_firm(o.firm_id))) with check (exists (select 1 from public.opportunities o where o.id = opportunity_id and public.can_access_firm(o.firm_id)));
 
-create policy "firm members read raw_artefacts" on public.raw_artefacts for select to authenticated using (public.can_access_firm(firm_id));
-create policy "firm members write raw_artefacts" on public.raw_artefacts for all to authenticated using (public.can_access_firm(firm_id)) with check (public.can_access_firm(firm_id));
+create policy "firm members read raw_artefacts" on public.raw_artefacts for select to authenticated using (public.can_access_firm(firm_id) and public.deal_belongs_to_firm(deal_id, firm_id));
+create policy "contributors write raw_artefacts" on public.raw_artefacts for all to authenticated using (public.can_write_firm(firm_id) and public.deal_belongs_to_firm(deal_id, firm_id)) with check (public.can_write_firm(firm_id) and public.deal_belongs_to_firm(deal_id, firm_id));
 
 create policy "firm members read artefact_segments" on public.artefact_segments for select to authenticated using (exists (select 1 from public.raw_artefacts r where r.id = raw_artefact_id and public.can_access_firm(r.firm_id)));
 create policy "firm members write artefact_segments" on public.artefact_segments for all to authenticated using (exists (select 1 from public.raw_artefacts r where r.id = raw_artefact_id and public.can_access_firm(r.firm_id))) with check (exists (select 1 from public.raw_artefacts r where r.id = raw_artefact_id and public.can_access_firm(r.firm_id)));
 
-create policy "firm members read ingestion_runs" on public.ingestion_runs for select to authenticated using (public.can_access_firm(firm_id));
-create policy "firm members write ingestion_runs" on public.ingestion_runs for all to authenticated using (public.can_access_firm(firm_id)) with check (public.can_access_firm(firm_id));
+create policy "firm members read ingestion_runs" on public.ingestion_runs for select to authenticated using (public.can_access_firm(firm_id) and public.deal_belongs_to_firm(deal_id, firm_id));
+create policy "contributors write ingestion_runs" on public.ingestion_runs for all to authenticated using (public.can_write_firm(firm_id) and public.deal_belongs_to_firm(deal_id, firm_id)) with check (public.can_write_firm(firm_id) and public.deal_belongs_to_firm(deal_id, firm_id));
 
-create policy "firm members read extraction_runs" on public.extraction_runs for select to authenticated using (public.can_access_firm(firm_id));
-create policy "firm members write extraction_runs" on public.extraction_runs for all to authenticated using (public.can_access_firm(firm_id)) with check (public.can_access_firm(firm_id));
+create policy "firm members read extraction_runs" on public.extraction_runs for select to authenticated using (public.can_access_firm(firm_id) and public.deal_belongs_to_firm(deal_id, firm_id));
+create policy "contributors write extraction_runs" on public.extraction_runs for all to authenticated using (public.can_write_firm(firm_id) and public.deal_belongs_to_firm(deal_id, firm_id)) with check (public.can_write_firm(firm_id) and public.deal_belongs_to_firm(deal_id, firm_id));
 
 create policy "firm members read extraction_candidates" on public.extraction_candidates for select to authenticated using (exists (select 1 from public.extraction_runs r where r.id = extraction_run_id and public.can_access_firm(r.firm_id)));
 create policy "firm members write extraction_candidates" on public.extraction_candidates for all to authenticated using (exists (select 1 from public.extraction_runs r where r.id = extraction_run_id and public.can_access_firm(r.firm_id))) with check (exists (select 1 from public.extraction_runs r where r.id = extraction_run_id and public.can_access_firm(r.firm_id)));
 
-create policy "firm members read llm_call_records" on public.llm_call_records for select to authenticated using (public.can_access_firm(firm_id));
-create policy "firm members write llm_call_records" on public.llm_call_records for all to authenticated using (public.can_access_firm(firm_id)) with check (public.can_access_firm(firm_id));
+create policy "firm members read llm_call_records" on public.llm_call_records for select to authenticated using (public.can_access_firm(firm_id) and public.deal_belongs_to_firm(deal_id, firm_id));
+create policy "contributors write llm_call_records" on public.llm_call_records for all to authenticated using (public.can_write_firm(firm_id) and public.deal_belongs_to_firm(deal_id, firm_id)) with check (public.can_write_firm(firm_id) and public.deal_belongs_to_firm(deal_id, firm_id));
 
-create policy "firm members read retrieval_chunks" on public.retrieval_chunks for select to authenticated using (public.can_access_firm(firm_id));
-create policy "firm members write retrieval_chunks" on public.retrieval_chunks for all to authenticated using (public.can_access_firm(firm_id)) with check (public.can_access_firm(firm_id));
+create policy "firm members read retrieval_chunks" on public.retrieval_chunks for select to authenticated using (public.can_access_firm(firm_id) and public.deal_belongs_to_firm(deal_id, firm_id));
+create policy "contributors write retrieval_chunks" on public.retrieval_chunks for all to authenticated using (public.can_write_firm(firm_id) and public.deal_belongs_to_firm(deal_id, firm_id)) with check (public.can_write_firm(firm_id) and public.deal_belongs_to_firm(deal_id, firm_id));
 
-create policy "firm members read grounded_answers" on public.grounded_answers for select to authenticated using (public.can_access_firm(firm_id));
-create policy "firm members write grounded_answers" on public.grounded_answers for all to authenticated using (public.can_access_firm(firm_id)) with check (public.can_access_firm(firm_id));
+create policy "firm members read grounded_answers" on public.grounded_answers for select to authenticated using (public.can_access_firm(firm_id) and public.deal_belongs_to_firm(deal_id, firm_id));
+create policy "contributors write grounded_answers" on public.grounded_answers for all to authenticated using (public.can_write_firm(firm_id) and public.deal_belongs_to_firm(deal_id, firm_id)) with check (public.can_write_firm(firm_id) and public.deal_belongs_to_firm(deal_id, firm_id));

@@ -4,6 +4,10 @@ function segmentId(rawArtefactId: string, ordinal: number): string {
   return `seg_${rawArtefactId}_${String(ordinal).padStart(4, "0")}`;
 }
 
+function sourceId(raw: RawArtefact): string {
+  return raw.external_id;
+}
+
 function nonEmptyLines(text: string): string[] {
   return text
     .split(/\r?\n/)
@@ -26,6 +30,7 @@ function parseCsv(raw: RawArtefact, content: string): ArtefactSegment[] {
     return {
       id: segmentId(raw.id, index + 1),
       raw_artefact_id: raw.id,
+      source_id: sourceId(raw),
       locator: {kind: "csv", row: index + 1, columns: headers} satisfies SourceLocator,
       text,
       ordinal: index + 1,
@@ -42,6 +47,7 @@ function parseSpreadsheetText(raw: RawArtefact, content: string): ArtefactSegmen
       return {
         id: segmentId(raw.id, index + 1),
         raw_artefact_id: raw.id,
+        source_id: sourceId(raw),
         locator: {kind: "spreadsheet", sheet, cell_range: range} satisfies SourceLocator,
         text: text.trim(),
         ordinal: index + 1,
@@ -60,6 +66,7 @@ export function parseArtefactSegments(raw: RawArtefact, content: string): Artefa
     {
       id: segmentId(raw.id, 1),
       raw_artefact_id: raw.id,
+      source_id: sourceId(raw),
       locator: {kind: raw.mime === "message/rfc822" ? "email" : "text", part: "body", text_range: `1:${body.length}`} as SourceLocator,
       text: body,
       ordinal: 1,

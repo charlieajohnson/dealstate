@@ -10,6 +10,8 @@ describe("provider-agnostic LLM client", () => {
     const calls: unknown[] = [];
     const client = clientModule!.createLlmClient({
       modelId: "test-model",
+      firmId: "firm_demo",
+      dealId: "project_nova",
       now: () => "2026-06-30T09:00:00.000Z",
       transport: async () => ({
         output: {answer: "source-backed"},
@@ -38,6 +40,8 @@ describe("provider-agnostic LLM client", () => {
     expect(second.cacheHit).toBe(true);
     expect(calls).toHaveLength(2);
     expect(calls[0]).toMatchObject({
+      firm_id: "firm_demo",
+      deal_id: "project_nova",
       prompt_id: "dealstate.grounding",
       prompt_version: "1.0.0",
       model_id: "test-model",
@@ -48,5 +52,19 @@ describe("provider-agnostic LLM client", () => {
       cache_hit: false,
     });
     expect(calls[1]).toMatchObject({cache_hit: true});
+    expect((calls[0] as {id: string}).id).not.toBe((calls[1] as {id: string}).id);
+  });
+
+  it("requires tenant scope for persisted call records", async () => {
+    const clientModule = await import("./client").catch(() => null);
+
+    expect(clientModule).not.toBeNull();
+    expect(() =>
+      clientModule!.createLlmClient({
+        modelId: "test-model",
+        transport: async () => ({output: {}, tokensIn: 0, tokensOut: 0, cost: 0, latencyMs: 0}),
+        recordCall: async () => undefined,
+      } as never),
+    ).toThrow(/firmId/);
   });
 });

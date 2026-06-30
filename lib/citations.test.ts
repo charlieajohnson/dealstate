@@ -9,6 +9,7 @@ describe("deterministic citation verification", () => {
     const segment: ArtefactSegment = {
       id: "seg_model_arr",
       raw_artefact_id: "raw_model_may",
+      source_id: "doc_002",
       locator: {kind: "spreadsheet", sheet: "Summary", cell_range: "B4:B4"},
       text: "Annual recurring revenue of EUR 18.4m",
       ordinal: 1,
@@ -31,6 +32,33 @@ describe("deterministic citation verification", () => {
     expect(citationsModule!.verifyCitation({...citation, extracted_text: "EUR 19.0m"}, [segment])).toMatchObject({
       ok: false,
       reason: "extracted_text_not_found",
+    });
+  });
+
+  it("rejects citations whose source id does not match the cited segment source", async () => {
+    const citationsModule = await import("./citations").catch(() => null);
+    const segment: ArtefactSegment = {
+      id: "seg_model_arr",
+      raw_artefact_id: "raw_model_may",
+      source_id: "doc_002",
+      locator: {kind: "spreadsheet", sheet: "Summary", cell_range: "B4:B4"},
+      text: "Annual recurring revenue of EUR 18.4m",
+      ordinal: 1,
+    };
+    const citation: SourceCitation = {
+      source_id: "doc_003",
+      source_title: "IC memo",
+      source_type: "document",
+      segment_id: "seg_model_arr",
+      locator: segment.locator,
+      extracted_text: "EUR 18.4m",
+      confidence: "medium",
+    };
+
+    expect(citationsModule).not.toBeNull();
+    expect(citationsModule!.verifyCitation(citation, [segment])).toMatchObject({
+      ok: false,
+      reason: "source_mismatch",
     });
   });
 });

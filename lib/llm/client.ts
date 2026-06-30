@@ -20,8 +20,8 @@ type LlmTransport = (request: {
 
 type LlmClientOptions = {
   modelId: string;
-  firmId?: string;
-  dealId?: string;
+  firmId: string;
+  dealId: string;
   transport: LlmTransport;
   recordCall: (record: LlmCallRecord) => Promise<void>;
   now?: () => string;
@@ -52,13 +52,21 @@ function hashInput(input: unknown): string {
   return crypto.createHash("sha256").update(stableStringify(input)).digest("hex");
 }
 
-function recordId(prompt: PromptDefinition, modelId: string, inputHash: string): string {
-  return crypto.createHash("sha256").update(`${prompt.id}:${prompt.version}:${modelId}:${inputHash}`).digest("hex").slice(0, 24);
+function recordId(prompt: PromptDefinition, modelId: string, inputHash: string, createdAt: string, sequence: number): string {
+  return crypto
+    .createHash("sha256")
+    .update(`${prompt.id}:${prompt.version}:${modelId}:${inputHash}:${createdAt}:${sequence}`)
+    .digest("hex")
+    .slice(0, 24);
 }
 
 export function createLlmClient(options: LlmClientOptions) {
+  if (!options.firmId) throw new Error("firmId is required for persisted LLM call records");
+  if (!options.dealId) throw new Error("dealId is required for persisted LLM call records");
+
   const cache = new Map<string, TransportResult>();
   const now = options.now ?? (() => new Date().toISOString());
+  let sequence = 0;
 
   return {
     async generateStructured<T extends z.ZodTypeAny>(request: StructuredRequest<T>): Promise<StructuredResult<T>> {
@@ -77,8 +85,10 @@ export function createLlmClient(options: LlmClientOptions) {
       if (!cached) cache.set(cacheKey, result);
 
       const data = request.schema.parse(result.output);
+      const createdAt = now();
+      sequence += 1;
       const record: LlmCallRecord = {
-        id: recordId(request.prompt, options.modelId, inputHash),
+        id: recordId(request.prompt, options.modelId, inputHash, createdAt, sequence),
         firm_id: options.firmId,
         deal_id: options.dealId,
         prompt_id: request.prompt.id,
@@ -90,7 +100,7 @@ export function createLlmClient(options: LlmClientOptions) {
         latency_ms: result.latencyMs,
         cache_hit: Boolean(cached),
         input_hash: inputHash,
-        created_at: now(),
+        created_at: createdAt,
       };
 
       await options.recordCall(record);
