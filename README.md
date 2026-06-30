@@ -184,6 +184,22 @@ flowchart TB
 
 **Optional path:** Supabase tables and RLS are scaffolded in [`supabase/migrations/20260621190524_init.sql`](supabase/migrations/20260621190524_init.sql), but full aggregate hydration in [`SupabaseRepository`](lib/repo/SupabaseRepository.ts) remains a pass-1 next step.
 
+## Pass 2 Data Plane
+
+Pass 2 adds the real data-plane foundations behind the same UI contract. The dashboard still reads through [`OpportunityRepository`](lib/repo/OpportunityRepository.ts), so seed mode and the public Project Nova demo remain stable.
+
+| Stage | Current implementation |
+|---|---|
+| Tenancy | Firm, fund, deal and membership schemas plus a deny-by-default RLS migration in [`supabase/migrations/20260630090000_pass2_foundations.sql`](supabase/migrations/20260630090000_pass2_foundations.sql) |
+| Ingestion | `SourceAdapter`, in-memory ingestion runner, content-hash dedupe, supersession marking and Gmail OAuth stub in [`lib/ingest/`](lib/ingest/) |
+| Parsing | Deterministic segment parser with stable email, CSV and spreadsheet-text locators in [`lib/parse/`](lib/parse/) |
+| Extraction | Citation verification and candidate materialisation into existing `Fact` records in [`lib/citations.ts`](lib/citations.ts) and [`lib/extract/`](lib/extract/) |
+| Retrieval | RLS-aware hybrid retrieval fusion helper in [`lib/retrieve/`](lib/retrieve/) |
+| Grounding | Grounded answer validation with abstention on missing evidence in [`lib/generate/`](lib/generate/) |
+| Evals | Offline Project Nova fixtures, gold labels and `npm run eval` under [`evals/`](evals/) and [`scripts/eval.ts`](scripts/eval.ts) |
+
+The live Gmail connector, hosted Supabase branch database, live model transport and preview deployment require account credentials. Until those exist, the public demo stays on the synthetic tenant and the live-only code paths fail closed with `TODO(pass2):` markers.
+
 ## Repository Map
 
 | Path | Purpose |
@@ -246,6 +262,12 @@ For a production build:
 
 ```bash
 npm run build
+```
+
+For the deterministic pass-2 eval:
+
+```bash
+npm run eval
 ```
 
 The last recorded full release check is in [`BUILD-REPORT.md`](BUILD-REPORT.md). It covers validation, tests, static generation, route smoke checks, desktop and mobile browser QA, Lighthouse checks, Vercel deployment, remote HTTP smoke checks and log inspection.

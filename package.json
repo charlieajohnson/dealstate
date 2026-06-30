@@ -12,7 +12,8 @@
     "test": "vitest run",
     "validate-data": "tsx scripts/validate-data.ts",
     "lint:copy": "tsx scripts/lint-copy.ts",
-    "validate": "npm run validate-data && npm run lint:copy && npm run typecheck && npm run lint && npm run test"
+    "validate": "npm run validate-data && npm run lint:copy && npm run typecheck && npm run lint && npm run test",
+    "eval": "tsx scripts/eval.ts"
   },
   "dependencies": {
     "@supabase/supabase-js": "2.108.2",

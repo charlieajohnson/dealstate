@@ -1,0 +1,22 @@
+{
+  "id": "project-nova-2026-06-30",
+  "live": false,
+  "thresholds": {
+    "citation_verification": 1,
+    "grounding_faithfulness": 1,
+    "abstention_correctness": 1,
+    "max_cost_usd": 0,
+    "p50_latency_ms": 0,
+    "p95_latency_ms": 0
+  },
+  "results": {
+    "schema_validation": "passed",
+    "overall_score": 61,
+    "source_coverage_score": 46,
+    "arr_conflict_preserved": true,
+    "grounding_abstention": true,
+    "cost_usd": 0,
+    "p50_latency_ms": 0,
+    "p95_latency_ms": 0
+  }
+}
