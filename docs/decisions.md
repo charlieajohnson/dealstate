@@ -22,3 +22,8 @@ Append-only record for the initial build.
 - **Hero:** implement the Project Nova product theatre as code-native UI over the existing estuary asset rather than shipping a screenshot or adding a video dependency.
 - **Seed data:** add non-required synthetic source records to reach 14 visible sources while preserving the required artefact denominator and Project Nova source coverage score of 46.
 - **Workspace:** favour a three-column deal-room layout with left navigation, central investment state and right-side changes/materials over a broad dashboard grid.
+
+## 2026-06-30
+
+- **Site URL:** resolve the canonical origin in one place (`lib/site.ts`) for `metadataBase` and the sitemap, with precedence override, then `VERCEL_PROJECT_PRODUCTION_URL`, then a local default. This fixes Open Graph and Twitter image URLs that previously resolved to `http://localhost:3000` in production, and removes the inconsistent `dealstate.vercel.app` sitemap fallback that did not match the live alias.
+- **Decorative images:** keep the raw `<img>` elements in the hero and atelier sections. They are full-bleed, source-less (`alt=""`) tableau backgrounds tuned with bespoke CSS; the two `next/lint` warnings are accepted because `next/image` would change layout behaviour for no measurable gain against current Lighthouse scores.
