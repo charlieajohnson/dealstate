@@ -69,5 +69,6 @@ describe("tenant isolation policy", () => {
     expect(sql).toContain('create policy "owners write memberships"');
     expect(sql).not.toContain('create policy "firm members write firms"');
     expect(sql).not.toContain('create policy "firm members write funds"');
+    expect(sql).not.toMatch(/for all to authenticated[^\n]+public\.can_access_firm/i);
   });
 });
