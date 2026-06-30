@@ -27,6 +27,9 @@ Repository: `https://github.com/charlieajohnson/dealstate`
 | `npm run eval` | Passed. Overall score 61, source coverage 46, ARR conflict preserved, deterministic abstention true, cost USD 0, p50 latency 0 ms, p95 latency 0 ms. |
 | `npm run validate` | Passed. `validate-data` validated 9 YAML files. `lint:copy` passed across 36 files. `typecheck` passed. `next lint` passed with the two pre-existing accepted `<img>` warnings. `test` passed: 21 files, 33 tests. |
 | `npm run build` | Passed. Re-ran the full validation chain, compiled Next.js 15.5.19 successfully, generated 12 static or dynamic app routes and collected build traces. |
+| `gitleaks protect --staged --redact --exit-code 1` | Passed. Scanned 78.39 KB of staged content with no leaks found. |
+| `npx vercel --yes` | Passed. Created and deployed Vercel project `dealstate-pass2`, deployment `dpl_Hff5QyuWBL3N5sXQQaRYzVN9AuUR`, ready state `READY`. Remote build ran `npm ci`, `npm run build`, validation and 33 tests. |
+| Remote HTTP smoke | Passed. HTTP 200 for `https://dealstate-pass2.vercel.app/`, `/opportunities/project-nova` and `/methodology`. |
 
 ## Eval Thresholds
 
@@ -41,7 +44,10 @@ Repository: `https://github.com/charlieajohnson/dealstate`
 
 ## Deploy State
 
-No preview deployment was created in this pass. Vercel credentials may exist in the environment, but this slice has live-only open items and should be previewed after the Supabase branch database and Gmail OAuth path are configured.
+The GitHub PR has a successful `Vercel - dealstate` deployment check and one still-pending generic `Vercel` status at the time this report was last updated. A manual non-interactive Vercel deploy also succeeded, but it created a separate Vercel project named `dealstate-pass2` rather than attaching to the existing `dealstate-zeta` production project.
+
+- Manual deployment: `https://dealstate-pass2.vercel.app`
+- Inspect URL: `https://vercel.com/charlieajohnson/dealstate-pass2/Hff5QyuWBL3N5sXQQaRYzVN9AuUR`
 
 ## Open Items
 
@@ -49,6 +55,7 @@ No preview deployment was created in this pass. Vercel credentials may exist in 
 - `needs-secret` - Gmail OAuth client id, client secret, redirect URI and token encryption key. Needed to complete live mailbox sync. Current adapter fails closed with `TODO(pass2): Gmail OAuth credentials and encrypted token storage are required for live sync.`
 - `needs-secret` - Model API key plus `MODEL_PROVIDER`, `MODEL_ID` and `EMBEDDING_MODEL_ID`. Needed to replace fixture-backed/offline model behaviour with live structured extraction, embeddings and grounded generation.
 - `needs-account` - Gmail API project with approved scopes for mailbox history, message bodies and attachments. Needed before a real test mailbox can sync.
+- `needs-decision` - Whether to keep or delete the separately created Vercel `dealstate-pass2` project. It deploys successfully, but it is not the existing public `dealstate-zeta` project.
 - `needs-decision` - Whether to keep the current text-based `.xlsx` eval fixtures as deterministic placeholders for phase gates, or replace them with binary XLSX fixtures before parser hardening.
 - `needs-decision` - Whether to split the current branch into separate phase PRs or keep this as one foundations PR. The current branch covers Phase 0 plus deterministic interfaces for Phases 1 to 3, but not live external provisioning.
 
@@ -84,6 +91,8 @@ MODEL_PROVIDER=<provider> MODEL_ID=<model> EMBEDDING_MODEL_ID=<embedding-model> 
 
 - Repository: `https://github.com/charlieajohnson/dealstate`
 - Current public demo: `https://dealstate-zeta.vercel.app`
+- Pass-2 manual deployment: `https://dealstate-pass2.vercel.app`
+- Pull request: `https://github.com/charlieajohnson/dealstate/pull/1`
 - Local working clone: `/Users/charlie/Documents/GitHub/dealstate-pass2`
 
 ## Open Checklist
@@ -92,5 +101,6 @@ MODEL_PROVIDER=<provider> MODEL_ID=<model> EMBEDDING_MODEL_ID=<embedding-model> 
 - [ ] Add Gmail OAuth credentials and token encryption key.
 - [ ] Add model and embedding provider credentials.
 - [ ] Approve Gmail API scopes for the test mailbox.
+- [ ] Decide whether to keep or delete the separate Vercel `dealstate-pass2` project.
 - [ ] Decide whether to replace placeholder `.xlsx` fixtures with binary XLSX files before parser hardening.
 - [ ] Decide whether to split this branch into phase PRs or keep one foundations PR.
