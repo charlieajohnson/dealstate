@@ -1,0 +1,14 @@
+{
+  "opportunity_id": "project_nova",
+  "overall_score": 61,
+  "source_coverage_score": 46,
+  "arr": {
+    "current": "€18.4m",
+    "conflict": "€17.8m",
+    "sources": ["doc_002", "doc_003"]
+  },
+  "grounding": {
+    "unanswerable_supported": false,
+    "unanswerable_citations": []
+  }
+}

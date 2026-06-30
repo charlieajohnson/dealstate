@@ -3,10 +3,11 @@ import {GeistSans} from "geist/font/sans";
 import {GeistMono} from "geist/font/mono";
 import {Footer} from "@/components/common/Footer";
 import {TopNav} from "@/components/nav/TopNav";
+import {SITE_URL} from "@/lib/site";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
+  metadataBase: new URL(SITE_URL),
   title: {default: "DealState", template: "%s · DealState"},
   description: "An archival state register for private-market deal teams.",
   icons: {
